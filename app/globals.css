@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --blur-gradient: linear-gradient(to right bottom, rgb(0 0 0 / 0.7) 50%, transparent);
+}
+
 @layer components {
   .gradient-primary {
     @apply from-pg-start from-10% to-pg-to to-90%;

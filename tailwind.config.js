@@ -10,6 +10,13 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
+        "home-pattern": "var(--blur-gradient), url('/assets/ui/home-pattern.svg')",
+        "about-pattern": "var(--blur-gradient), url('/assets/ui/about-pattern.svg')",
+        "projects-pattern": "var(--blur-gradient), url('/assets/ui/projects-pattern.svg')",
+        "project-pattern": "var(--blur-gradient), url('/assets/ui/project-pattern.svg')",
+        "contact-pattern": "var(--blur-gradient), url('/assets/ui/contact-pattern.svg')",
+        "error-pattern": "var(--blur-gradient), url('/assets/ui/error-pattern.svg')",
+
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
@@ -20,7 +27,11 @@ module.exports = {
         /* Gradient color classes */
         "pg-start": "rgb(255 0 230 / 1)",
         "pg-to": "rgb(255 131 61 / 0.86)",
+        "blur-start": "rgb(0 0 0 / 0.7)",
       },
+      screens: {
+        "xs": "500px"
+      }
     },
   },
   plugins: [
