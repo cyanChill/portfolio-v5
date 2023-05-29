@@ -26,13 +26,13 @@ export default function Home() {
       <div className="mt-6 flex gap-2 text-sm font-bold">
         <Link
           href="/projects"
-          className="block rounded-md bg-primary p-2 py-1 text-center align-middle"
+          className="rounded-md bg-primary p-2 py-1 text-center flex items-center"
         >
           View My Work
         </Link>
         <Link
           href="/about"
-          className="block rounded-md border-2 border-primary p-2 py-1 text-center align-middle"
+          className="rounded-md border-2 border-primary p-2 py-1 text-center flex items-center"
         >
           Learn More
         </Link>
