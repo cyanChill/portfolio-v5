@@ -28,9 +28,6 @@ module.exports = {
         "pg-start": "rgb(255 0 230 / 1)",
         "pg-to": "rgb(255 131 61 / 0.86)",
         "blur-start": "rgb(0 0 0 / 0.7)",
-      },
-      screens: {
-        "xs": "500px"
       }
     },
   },
