@@ -5,12 +5,15 @@ import * as skillData from "@/appData/skills";
 
 export default function About() {
   return (
-    <CenterLayout className="my-20 grid gap-4 px-6 sm:px-20" main>
-      <section>
-        <h1 className="text-3xl font-bold sm:text-6xl">
+    <CenterLayout
+      className="my-20 grid gap-4 px-6 sm:py-8 lg:my-auto lg:grid-cols-2 lg:gap-10 lg:px-20"
+      main
+    >
+      <section className="md:my-auto">
+        <h1 className="text-3xl font-bold sm:text-4xl">
           <span className="gradient-primary-text">Who am I?</span>
         </h1>
-        <p className="mt-2 text-sm">
+        <p className="mt-2 text-sm sm:mt-4 sm:text-base">
           A full-stack developer from Brooklyn, New York who recently graduated
           from <span className="font-bold">The City College of New York</span>{" "}
           with a bachelor&apos;s in computer science. I&apos;ve started off
@@ -33,11 +36,11 @@ export default function About() {
           </a>
           .
         </p>
-        <p className="mt-2 text-sm">
+        <p className="mt-2 text-sm sm:mt-4 sm:text-base">
           Loving both sides of the spectrum, I settled into the world of
           full-stack development, working on projects to hone my skills.
         </p>
-        <p className="mt-2 text-sm">
+        <p className="mt-2 text-sm sm:mt-4 sm:text-base">
           I&apos;m currently learning the{" "}
           <a href="https://create.t3.gg/" target="_blank" className="underline">
             T3 Stack
@@ -45,8 +48,8 @@ export default function About() {
           , whose core principle is &ldquo;simplicty, modularity, and full-stack
           typesafety&rdquo;.
         </p>
-        <p className="mt-2 text-sm">
-          <span className="font-bold">Outside of coding</span>, I&apos; an avid
+        <p className="mt-2 text-sm sm:mt-4 sm:text-base">
+          <span className="font-bold">Outside of coding</span>, I&apos;m an avid
           reader of novels.
         </p>
         <a
@@ -58,7 +61,7 @@ export default function About() {
         </a>
       </section>
 
-      <section className="grid gap-2">
+      <section className="mt-4 grid gap-2 sm:mx-8 sm:grid-cols-2 lg:mx-0 lg:mt-0">
         <SkillGroup
           label="Front End"
           bgColor="bg-slate-700"
@@ -68,11 +71,13 @@ export default function About() {
           label="Back End"
           bgColor="bg-slate-600"
           icons={skillData.BACK_END}
+          className="mt-auto"
         />
         <SkillGroup
           label="Developer Tools"
           bgColor="bg-slate-800"
           icons={skillData.DEVELOPMENT_TOOLS}
+          className="sm:col-span-2 sm:ml-[clamp(6rem,3vw,8rem)]"
         />
       </section>
     </CenterLayout>
@@ -83,17 +88,19 @@ type SkillGroupType = {
   label: string;
   bgColor?: string;
   icons: skillData.SkillData;
+  className?: string;
 };
 
 const SkillGroup = ({
   label,
   bgColor = "bg-slate-900",
   icons,
+  className,
 }: SkillGroupType) => {
   return (
-    <div className={`rounded-lg p-4 ${bgColor}`}>
+    <div className={`rounded-lg p-4 ${bgColor} ${className}`}>
       <p className="text-2xl font-semibold">{label}</p>
-      <div className="mt-2 grid grid-cols-[repeat(auto-fit,80px)] justify-between gap-2">
+      <div className="mt-2 grid grid-cols-[repeat(auto-fit,70px)] justify-evenly gap-2">
         {icons.map((icon) => {
           let iconEl: JSX.Element;
           if (icon.icon.startsWith("devicon")) {
@@ -113,7 +120,7 @@ const SkillGroup = ({
           return (
             <div
               key={icon.name}
-              className="flex w-20 flex-col items-center text-xs"
+              className="flex w-[70px] flex-col items-center text-xs"
             >
               {iconEl}
               <p className="mt-auto">{icon.name}</p>
