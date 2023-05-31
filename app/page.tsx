@@ -21,7 +21,7 @@ export default function Home() {
       </p>
 
       <p className="mt-4 max-w-[40ch] text-xs leading-5 opacity-80 sm:text-base">
-        I love working on the visible and hidden layers of websites, darkmode,
+        I love working on the visible and hidden layers of websites, dark mode,
         and coffee.
       </p>
 

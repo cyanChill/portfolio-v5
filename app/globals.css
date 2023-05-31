@@ -5,7 +5,7 @@
 :root {
   --blur-gradient: linear-gradient(
     to right bottom,
-    rgb(0 0 0 / 0.7) 50%,
+    rgb(0 0 0 / 0.8) 50%,
     transparent
   );
 }
