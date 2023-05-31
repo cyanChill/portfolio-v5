@@ -53,7 +53,7 @@ export default function About() {
           reader of novels.
         </p>
         <a
-          href=""
+          href={process.env.NEXT_PUBLIC_RESUME}
           target="_blank"
           className="mt-4 flex w-fit items-center rounded-md bg-primary p-2 py-1 text-center text-sm font-bold sm:p-3 sm:py-1.5 sm:text-base"
         >
