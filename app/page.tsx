@@ -1,38 +1,40 @@
 import Link from "next/link";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
+import CenterLayout from "@/components/layout/CenterLayout";
+
 export default function Home() {
   return (
-    <main className="my-auto px-6">
-      <h1 className="text-4xl font-bold">Anthony Liang</h1>
+    <CenterLayout className="my-auto px-6 sm:px-20" main>
+      <h1 className="text-4xl font-bold sm:text-6xl">Anthony Liang</h1>
 
-      <p className="mt-4 font-light opacity-50">
+      <p className="mt-4 font-light opacity-50 sm:text-2xl">
         <span className="line-through">Front-End</span>{" "}
         <span className="line-through">Back-End</span>
       </p>
 
-      <p className="text-2xl font-bold">
+      <p className="text-2xl font-bold sm:text-4xl">
         <span className="gradient-primary bg-gradient-to-r bg-clip-text text-transparent">
           Full-Stack
         </span>{" "}
         Developer
       </p>
 
-      <p className="mt-4 max-w-[40ch] text-xs leading-5 opacity-80">
+      <p className="mt-4 max-w-[40ch] text-xs leading-5 opacity-80 sm:text-base">
         I love working on the visible and hidden layers of websites, darkmode,
         and coffee.
       </p>
 
-      <div className="mt-6 flex gap-2 text-sm font-bold">
+      <div className="mt-6 flex flex-wrap gap-2 text-sm font-bold sm:text-base">
         <Link
           href="/projects"
-          className="rounded-md bg-primary p-2 py-1 text-center flex items-center"
+          className="flex items-center rounded-md bg-primary p-2 py-1 text-center sm:p-3 sm:py-1.5"
         >
           View My Work
         </Link>
         <Link
           href="/about"
-          className="rounded-md border-2 border-primary p-2 py-1 text-center flex items-center"
+          className="flex items-center rounded-md border-2 border-primary p-2 py-1 text-center sm:p-3 sm:py-1.5"
         >
           Learn More
         </Link>
@@ -46,6 +48,6 @@ export default function Home() {
           <FaLinkedin />
         </a>
       </div>
-    </main>
+    </CenterLayout>
   );
 }

@@ -62,7 +62,7 @@ export default function NavBar() {
             className="absolute left-4 top-2 sm:static"
           />
 
-          <ul className="mt-auto flex flex-col gap-4 pt-32 text-3xl font-medium sm:absolute sm:left-1/2 sm:-translate-x-1/2 sm:flex-row sm:py-0 sm:text-lg md:gap-[5rem]">
+          <ul className="mt-auto flex flex-col gap-4 pt-32 text-3xl font-medium sm:m-0 sm:flex-row sm:gap-12 sm:py-0 sm:text-lg md:absolute md:left-1/2 md:-translate-x-1/2 md:gap-20">
             {["Home", "Projects", "About"].map((route) => {
               const derivedRoute =
                 route != "Home" ? `/${route.toLowerCase()}` : "/";
