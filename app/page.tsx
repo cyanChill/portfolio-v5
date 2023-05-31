@@ -14,7 +14,7 @@ export default function Home() {
       </p>
 
       <p className="text-2xl font-bold sm:text-4xl">
-        <span className="gradient-primary bg-gradient-to-r bg-clip-text text-transparent">
+        <span className="gradient-primary-text">
           Full-Stack
         </span>{" "}
         Developer
