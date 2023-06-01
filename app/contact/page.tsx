@@ -6,7 +6,7 @@ import ContactForm from "./ContactForm";
 export default function Contact() {
   return (
     <CenterLayout
-      className="my-20 grid gap-4 px-6 sm:py-8 lg:my-auto lg:grid-cols-2 lg:gap-10 lg:px-20"
+      className="my-20 grid gap-4 px-6 sm:py-8 md:my-auto md:grid-cols-2 md:gap-10 md:px-20"
       main
     >
       <section>

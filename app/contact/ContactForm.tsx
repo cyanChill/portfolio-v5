@@ -18,6 +18,7 @@ export default function ContactForm() {
         variant="textarea"
         label="Message"
         name="message"
+        rows={5}
         required
       />
       <button
