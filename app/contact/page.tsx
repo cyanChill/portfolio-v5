@@ -25,12 +25,20 @@ export default function Contact() {
 
         <ContactForm />
       </section>
-      <section className="mt-4 flex flex-col gap-3 text-2xl">
-        <a href="https://github.com/cyanChill" target="_blank">
+      <section className="mt-4 flex flex-col gap-3 text-2xl sm:mt-14">
+        <a
+          href="https://github.com/cyanChill"
+          target="_blank"
+          className="w-fit"
+        >
           <FaGithub className="inline" />{" "}
           <span className="text-base opacity-80">/cyanChill</span>
         </a>
-        <a href="https://www.linkedin.com/in/anthonyliang9/" target="_blank">
+        <a
+          href="https://www.linkedin.com/in/anthonyliang9/"
+          target="_blank"
+          className="w-fit"
+        >
           <FaLinkedin className="inline" />{" "}
           <span className="text-base opacity-80">/anthonyliang9</span>
         </a>

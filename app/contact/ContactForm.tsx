@@ -1,8 +1,13 @@
 "use client";
 
 export default function ContactForm() {
-  const submitMessage = (e: React.FormEvent) => {
+  const submitMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(
+      e.target.name.value,
+      e.target.email.value,
+      e.target.message.value
+    );
   };
 
   return (
