@@ -3,26 +3,15 @@
 import { useForm, UseFormRegister } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Path, SubmitHandler } from "react-hook-form";
-import { z } from "zod";
 import toast from "react-hot-toast";
 
-const schema = z
-  .object({
-    Name: z.string().trim().nonempty(),
-    Email: z.string().trim().email().nonempty(),
-    Message: z.string().trim().nonempty(),
-  })
-  .required();
-type IFormValues = z.infer<typeof schema>;
+import { contactSchema, type ContactSchemaType } from "@/lib/schema";
 
 export default function ContactForm() {
-  const { register, handleSubmit, reset, formState } = useForm<IFormValues>({
-    resolver: zodResolver(schema),
-  });
+  const { register, handleSubmit, reset, formState } =
+    useForm<ContactSchemaType>({ resolver: zodResolver(contactSchema) });
 
-  const submitMessage: SubmitHandler<IFormValues> = async (d) => {
-    console.log("Submission Data:", d);
-
+  const submitMessage: SubmitHandler<ContactSchemaType> = async (d) => {
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: {
@@ -31,12 +20,20 @@ export default function ContactForm() {
       },
       body: JSON.stringify(d),
     });
-    const data = await res.json();
 
-    console.log(data);
-    toast.error(data.error);
-
-    reset();
+    try {
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.message); // Some error has occurred
+      } else {
+        toast.success("Successfully sent your message.");
+        reset();
+      }
+    } catch (err) {
+      toast.error(
+        "Something unexpected has occurred when sending your message."
+      );
+    }
   };
 
   return (
@@ -56,8 +53,8 @@ export default function ContactForm() {
 }
 
 type FormElement = {
-  label: Path<IFormValues>;
-  register: UseFormRegister<IFormValues>;
+  label: Path<ContactSchemaType>;
+  register: UseFormRegister<ContactSchemaType>;
 };
 
 type InputProps = { type?: string } & FormElement;
