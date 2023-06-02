@@ -4,6 +4,7 @@ import { useForm, UseFormRegister } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Path, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
+import toast from "react-hot-toast";
 
 const schema = z
   .object({
@@ -15,12 +16,26 @@ const schema = z
 type IFormValues = z.infer<typeof schema>;
 
 export default function ContactForm() {
-  const { register, handleSubmit, reset } = useForm<IFormValues>({
+  const { register, handleSubmit, reset, formState } = useForm<IFormValues>({
     resolver: zodResolver(schema),
   });
 
-  const submitMessage: SubmitHandler<IFormValues> = (d) => {
-    console.log(d);
+  const submitMessage: SubmitHandler<IFormValues> = async (d) => {
+    console.log("Submission Data:", d);
+
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(d),
+    });
+    const data = await res.json();
+
+    console.log(data);
+    toast.error(data.error);
+
     reset();
   };
 
@@ -31,6 +46,7 @@ export default function ContactForm() {
       <TextArea label="Message" register={register} rows={5} />
       <button
         type="submit"
+        disabled={formState.isSubmitting}
         className="ml-auto block rounded-md bg-primary p-3 py-1.5 text-center text-sm font-bold sm:text-base"
       >
         Send Message
@@ -74,7 +90,7 @@ const TextArea = ({ label, register, rows = 3 }: TextAreaProps) => {
         placeholder=" "
         rows={rows}
         {...register(label)}
-        className="peer block w-full appearance-none rounded-md border-2 border-white bg-transparent px-2.5 pb-2.5 pt-4 text-sm focus:border-primary focus:outline-none focus:ring-0"
+        className="peer block w-full resize-none appearance-none rounded-md border-2 border-white bg-transparent px-2.5 pb-2.5 pt-4 text-sm focus:border-primary focus:outline-none focus:ring-0"
       />
       <label
         htmlFor={label}

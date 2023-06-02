@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 import "./globals.css";
 import NavBar from "@/components/layout/Navigation";
@@ -26,6 +27,10 @@ export default function RootLayout({
       <body
         className={`${inter.className} relative flex min-h-screen flex-col items-center overflow-x-hidden bg-slate-950 bg-no-repeat text-white`}
       >
+        <Toaster
+          position="bottom-right"
+          toastOptions={{ className: "!bg-slate-800 !text-white" }}
+        />
         <NavBar />
         {children}
       </body>
