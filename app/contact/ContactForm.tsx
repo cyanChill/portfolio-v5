@@ -1,26 +1,34 @@
 "use client";
 
+import { useForm, UseFormRegister } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Path, SubmitHandler } from "react-hook-form";
+import { z } from "zod";
+
+const schema = z
+  .object({
+    Name: z.string().trim().nonempty(),
+    Email: z.string().trim().email().nonempty(),
+    Message: z.string().trim().nonempty(),
+  })
+  .required();
+type IFormValues = z.infer<typeof schema>;
+
 export default function ContactForm() {
-  const submitMessage = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(
-      e.target.name.value,
-      e.target.email.value,
-      e.target.message.value
-    );
+  const { register, handleSubmit, reset } = useForm<IFormValues>({
+    resolver: zodResolver(schema),
+  });
+
+  const submitMessage: SubmitHandler<IFormValues> = (d) => {
+    console.log(d);
+    reset();
   };
 
   return (
-    <form onSubmit={submitMessage}>
-      <FloatingLabelInput label="Name" type="text" name="name" required />
-      <FloatingLabelInput label="Email" type="email" name="email" required />
-      <FloatingLabelInput
-        variant="textarea"
-        label="Message"
-        name="message"
-        rows={5}
-        required
-      />
+    <form onSubmit={handleSubmit(submitMessage)}>
+      <Input label="Name" register={register} />
+      <Input label="Email" type="email" register={register} />
+      <TextArea label="Message" register={register} rows={5} />
       <button
         type="submit"
         className="ml-auto block rounded-md bg-primary p-3 py-1.5 text-center text-sm font-bold sm:text-base"
@@ -31,40 +39,45 @@ export default function ContactForm() {
   );
 }
 
-type FLIProps = {
-  variant?: "input" | "textarea";
-  label: string;
-  name: string;
-  placeholder?: string;
-  [x: string]: any;
+type FormElement = {
+  label: Path<IFormValues>;
+  register: UseFormRegister<IFormValues>;
 };
 
-const FloatingLabelInput = ({
-  variant = "input",
-  label,
-  name,
-  ...rest
-}: FLIProps) => {
-  const inputClasses =
-    "peer block w-full appearance-none rounded-md border-2 border-white bg-transparent px-2.5 pb-2.5 pt-4 text-sm focus:outline-none focus:ring-0 focus:border-primary";
+type InputProps = { type?: string } & FormElement;
 
-  const inputField =
-    variant === "input" ? (
-      <input name={name} className={inputClasses} placeholder=" " {...rest} />
-    ) : (
-      <textarea
-        name={name}
-        className={inputClasses}
-        placeholder=" "
-        {...rest}
-      />
-    );
-
+const Input = ({ label, register, type = "text" }: InputProps) => {
   return (
     <div className="relative my-3 text-white opacity-70">
-      {inputField}
+      <input
+        type={type}
+        placeholder=" "
+        {...register(label)}
+        className="peer block w-full appearance-none rounded-md border-2 border-white bg-transparent px-2.5 pb-2.5 pt-4 text-sm focus:border-primary focus:outline-none focus:ring-0"
+      />
       <label
-        htmlFor={name}
+        htmlFor={label}
+        className="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-slate-950 px-2 text-sm duration-300 peer-placeholder-shown:top-6 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-primary"
+      >
+        {label}
+      </label>
+    </div>
+  );
+};
+
+type TextAreaProps = { rows?: number } & FormElement;
+
+const TextArea = ({ label, register, rows = 3 }: TextAreaProps) => {
+  return (
+    <div className="relative my-3 text-white opacity-70">
+      <textarea
+        placeholder=" "
+        rows={rows}
+        {...register(label)}
+        className="peer block w-full appearance-none rounded-md border-2 border-white bg-transparent px-2.5 pb-2.5 pt-4 text-sm focus:border-primary focus:outline-none focus:ring-0"
+      />
+      <label
+        htmlFor={label}
         className="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-slate-950 px-2 text-sm duration-300 peer-placeholder-shown:top-6 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-primary"
       >
         {label}
