@@ -1,6 +1,6 @@
 export type SkillData = { name: string; icon: string }[];
 
-export const FRONT_END = [
+export const FRONT_END: SkillData = [
   { name: "HTML", icon: "devicon-html5-plain" },
   { name: "CSS", icon: "devicon-css3-plain" },
   { name: "JavaScript", icon: "devicon-javascript-plain" },
@@ -12,7 +12,7 @@ export const FRONT_END = [
   { name: "Firebase", icon: "firebase" },
 ];
 
-export const BACK_END = [
+export const BACK_END: SkillData = [
   { name: "Node.js", icon: "devicon-nodejs-plain" },
   { name: "Express.js", icon: "express" },
   { name: "Python", icon: "python" },
@@ -21,7 +21,7 @@ export const BACK_END = [
   { name: "PostgreSQL", icon: "postgresql" },
 ];
 
-export const DEVELOPMENT_TOOLS = [
+export const DEVELOPMENT_TOOLS: SkillData = [
   { name: "Git", icon: "devicon-git-plain" },
   { name: "GitHub", icon: "devicon-github-original" },
   { name: "VSCode", icon: "devicon-vscode-plain" },

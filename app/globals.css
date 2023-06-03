@@ -8,6 +8,11 @@
     rgb(0 0 0 / 0.8) 50%,
     transparent
   );
+  --blur-gradient-from-bottom: linear-gradient(
+    to top,
+    rgb(0 0 0 / 0.9) 2.5%,
+    transparent
+  );
 }
 
 @layer components {
