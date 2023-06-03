@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -12,7 +12,19 @@ import CenterLayout from "./CenterLayout";
 export default function NavBar() {
   const pathname = usePathname();
 
+  const navMenu = useRef<HTMLElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  const setNavState = (open: boolean) => {
+    if (document && navMenu.current) {
+      if (open) {
+        document.body.classList.add("overflow-hidden");
+      } else {
+        document.body.classList.remove("overflow-hidden");
+        navMenu.current.scrollTo({ top: 0 });
+      }
+    }
+  };
 
   // Dynamically change the background based on the current route
   let bkgPattern =
@@ -30,7 +42,10 @@ export default function NavBar() {
   if (!isOpen) navToggleClass += " gradient-primary bg-gradient-to-r";
 
   // Close nav on mobile when routes changes
-  useEffect(() => setIsOpen(false), [pathname]);
+  useEffect(() => {
+    setIsOpen(false);
+    setNavState(false);
+  }, [pathname]);
 
   return (
     <>
@@ -40,7 +55,12 @@ export default function NavBar() {
       <button
         className={navToggleClass}
         aria-controls="primary-navigation"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() =>
+          setIsOpen((prev) => {
+            setNavState(!prev);
+            return !prev;
+          })
+        }
       >
         {!isOpen ? <RiMenu4Line /> : <RiCloseLine />}
         <span className="sr-only">Menu</span>
@@ -53,6 +73,7 @@ export default function NavBar() {
               ? "visible"
               : "pointer-events-none invisible sm:pointer-events-auto sm:visible"
           }`}
+          ref={navMenu}
         >
           <Image
             src="/assets/logo.svg"
