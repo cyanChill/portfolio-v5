@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from '@vercel/analytics/react';
 
 import "./globals.css";
 import NavBar from "@/components/layout/Navigation";
@@ -33,6 +34,7 @@ export default function RootLayout({
         />
         <NavBar />
         {children}
+        <Analytics />
       </body>
     </html>
   );
