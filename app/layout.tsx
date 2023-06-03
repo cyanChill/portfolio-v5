@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 import "./globals.css";
 import NavBar from "@/components/layout/Navigation";
@@ -26,7 +26,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.className} relative flex min-h-screen flex-col items-center overflow-x-hidden bg-slate-950 bg-no-repeat text-white`}
+        className={`${inter.className} relative flex min-h-screen flex-col items-center overflow-x-hidden bg-slate-950 bg-no-repeat text-white sm:!overflow-y-auto`}
       >
         <Toaster
           position="bottom-right"
