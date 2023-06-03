@@ -68,7 +68,7 @@ export default function NavBar() {
 
       <CenterLayout>
         <nav
-          className={`fixed left-0 top-0 z-40 flex h-screen w-screen flex-col overflow-y-auto bg-slate-950 px-12 sm:relative sm:mx-6 sm:mt-4 sm:h-auto sm:w-auto sm:flex-row sm:items-center sm:justify-between sm:bg-transparent sm:px-0 ${
+          className={`fixed left-0 top-0 z-40 flex h-screen w-screen flex-col overflow-y-auto overscroll-none bg-slate-950 px-12 sm:relative sm:mx-6 sm:mt-4 sm:h-auto sm:w-auto sm:flex-row sm:items-center sm:justify-between sm:bg-transparent sm:px-0 ${
             isOpen
               ? "visible"
               : "pointer-events-none invisible sm:pointer-events-auto sm:visible"
