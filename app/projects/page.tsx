@@ -29,10 +29,14 @@ export default function Projects() {
             }
             className="group mb-4 flex min-h-[14rem] overflow-hidden rounded-lg bg-contain bg-center bg-no-repeat p-2 sm:p-4"
           >
-            <div className="mb-2 mt-auto transform duration-500 ease-in-out sm:mb-4 sm:translate-y-full sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
-              <p className="text-2xl font-bold">{proj.title}</p>
-              <p className="text-xs text-gray-300">{proj.brief}</p>
-              <div className="mt-2 flex flex-wrap gap-1 text-xs">
+            <div className="mb-2 mt-auto transform duration-500 ease-in-out lg:mb-4 lg:translate-y-full lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
+              <p className="text-2xl font-bold group-hover:underline md:text-3xl">
+                {proj.title}
+              </p>
+              <p className="mt-1 text-xs text-gray-300 md:text-sm">
+                {proj.brief}
+              </p>
+              <div className="mt-3 flex flex-wrap gap-1 text-xs">
                 {proj.technologies.map((tech) => (
                   <span
                     key={tech}
