@@ -10,7 +10,7 @@ export default function NotFound() {
       main
     >
       <Image
-        src="/assets/ui/error-img.svg"
+        src="/ui/error-img.svg"
         width={489}
         height={403}
         alt="404 image"
@@ -38,7 +38,7 @@ export default function NotFound() {
             About Me
           </Link>
           <Image
-            src="/assets/ui/arrow.svg"
+            src="/ui/arrow.svg"
             width={37}
             height={39}
             alt="arrow"

@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -76,7 +77,7 @@ export default function NavBar() {
           ref={navMenu}
         >
           <Image
-            src="/assets/logo.svg"
+            src="/logo.svg"
             width={48}
             height={48}
             alt="cyanChill logo"

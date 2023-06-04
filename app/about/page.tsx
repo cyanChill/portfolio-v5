@@ -108,7 +108,7 @@ const SkillGroup = ({
           } else {
             iconEl = (
               <Image
-                src={`/assets/icons/${icon.icon}.svg`}
+                src={`/icons/${icon.icon}.svg`}
                 width={36}
                 height={36}
                 alt={`${icon.name} icon`}

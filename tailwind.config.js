@@ -11,17 +11,17 @@ module.exports = {
     extend: {
       backgroundImage: {
         "home-pattern":
-          "var(--blur-gradient), url('/assets/ui/home-pattern.svg')",
+          "var(--blur-gradient), url('/ui/home-pattern.svg')",
         "about-pattern":
-          "var(--blur-gradient), url('/assets/ui/about-pattern.svg')",
+          "var(--blur-gradient), url('/ui/about-pattern.svg')",
         "projects-pattern":
-          "var(--blur-gradient), url('/assets/ui/projects-pattern.svg')",
+          "var(--blur-gradient), url('/ui/projects-pattern.svg')",
         "project-pattern":
-          "var(--blur-gradient), url('/assets/ui/project-pattern.svg')",
+          "var(--blur-gradient), url('/ui/project-pattern.svg')",
         "contact-pattern":
-          "var(--blur-gradient), url('/assets/ui/contact-pattern.svg')",
+          "var(--blur-gradient), url('/ui/contact-pattern.svg')",
         "error-pattern":
-          "var(--blur-gradient), url('/assets/ui/error-pattern.svg')",
+          "var(--blur-gradient), url('/ui/error-pattern.svg')",
 
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
