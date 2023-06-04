@@ -17,9 +17,9 @@ export default function Projects() {
         {PROJECTS.map((proj, idx) => (
           <Link
             key={proj.title}
-            href={`/projects/overview/${encodeURIComponent(
-              proj.title.toLowerCase()
-            )}`}
+            href={`/projects/overview/${proj.title
+              .toLowerCase()
+              .replaceAll(" ", "-")}`}
             style={
               {
                 backgroundImage: `var(--blur-gradient-from-bottom), url('${proj.thumbnail.url}')`,

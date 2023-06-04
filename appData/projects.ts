@@ -8,7 +8,7 @@ export type ProjectData = {
 export const PROJECTS: ProjectData = [
   {
     thumbnail: {
-      url: "/assets/projects/Portfolio/thumbnail.webp",
+      url: "/assets/projects/portfolio/thumbnail.webp",
       colorHex: "#867dbc",
     },
     title: "Portfolio",
@@ -17,7 +17,7 @@ export const PROJECTS: ProjectData = [
   },
   {
     thumbnail: {
-      url: "/assets/projects/GitInspire/thumbnail.webp",
+      url: "/assets/projects/gitinspire/thumbnail.webp",
       colorHex: "#ddcce4",
     },
     title: "GitInspire",
@@ -34,7 +34,7 @@ export const PROJECTS: ProjectData = [
   },
   {
     thumbnail: {
-      url: "/assets/projects/OdinWorks/thumbnail.webp",
+      url: "/assets/projects/odinworks/thumbnail.webp",
       colorHex: "#83a3f7",
     },
     title: "OdinWorks",
@@ -43,7 +43,7 @@ export const PROJECTS: ProjectData = [
   },
   {
     thumbnail: {
-      url: "/assets/projects/Next-Instagram/thumbnail.webp",
+      url: "/assets/projects/next-instagram/thumbnail.webp",
       colorHex: "#ff8f66",
     },
     title: "Next-Instagram",
@@ -52,7 +52,7 @@ export const PROJECTS: ProjectData = [
   },
   {
     thumbnail: {
-      url: "/assets/projects/GradSchoolZero/thumbnail.webp",
+      url: "/assets/projects/gradschoolzero/thumbnail.webp",
       colorHex: "#aaf5ac",
     },
     title: "GradSchoolZero",
@@ -62,7 +62,7 @@ export const PROJECTS: ProjectData = [
   },
   {
     thumbnail: {
-      url: "/assets/projects/PC-Parts-List/thumbnail.webp",
+      url: "/assets/projects/pc-parts-list/thumbnail.webp",
       colorHex: "#ff6666",
     },
     title: "PC Parts List",
@@ -72,7 +72,7 @@ export const PROJECTS: ProjectData = [
   },
   {
     thumbnail: {
-      url: "/assets/projects/Canal-Street-Market/thumbnail.webp",
+      url: "/assets/projects/canal-street-market/thumbnail.webp",
       colorHex: "#fff482",
     },
     title: "Canal Street Market",
@@ -82,7 +82,7 @@ export const PROJECTS: ProjectData = [
   },
   {
     thumbnail: {
-      url: "/assets/projects/Doelist/thumbnail.webp",
+      url: "/assets/projects/doelist/thumbnail.webp",
       colorHex: "#646cc9",
     },
     title: "Doelist",
@@ -91,7 +91,7 @@ export const PROJECTS: ProjectData = [
   },
   {
     thumbnail: {
-      url: "/assets/projects/Space-Tourism-Site/thumbnail.webp",
+      url: "/assets/projects/space-tourism-site/thumbnail.webp",
       colorHex: "#2956ce",
     },
     title: "Space Tourism Site",
@@ -101,7 +101,7 @@ export const PROJECTS: ProjectData = [
   },
   {
     thumbnail: {
-      url: "/assets/projects/Shopping-Cart-App/thumbnail.webp",
+      url: "/assets/projects/shopping-cart-app/thumbnail.webp",
       colorHex: "#e0e0e0",
     },
     title: "Shopping Cart App",
