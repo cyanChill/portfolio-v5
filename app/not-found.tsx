@@ -37,12 +37,7 @@ export default function NotFound() {
           >
             About Me
           </Link>
-          <Image
-            src="/ui/arrow.svg"
-            width={37}
-            height={39}
-            alt="arrow"
-          />
+          <Image src="/ui/arrow.svg" width={37} height={39} alt="arrow" />
         </div>
       </section>
     </CenterLayout>
