@@ -87,7 +87,7 @@ export const PROJECTS: ProjectData = [
     },
     title: "Doelist",
     brief: "Write out your thoughts and organize them in categories.",
-    technologies: ["JavaScript", "Webpack", "Workbox"],
+    technologies: ["HTML", "CSS", "JavaScript", "Webpack", "Workbox"],
   },
   {
     thumbnail: {
