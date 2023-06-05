@@ -5,10 +5,7 @@ import * as skillData from "@/appData/skills";
 
 export default function About() {
   return (
-    <CenterLayout
-      className="my-20 grid gap-4 px-6 sm:py-8 lg:my-auto lg:grid-cols-2 lg:gap-10 lg:px-20"
-      main
-    >
+    <CenterLayout className="my-20 grid gap-4 px-6 sm:py-8 lg:my-auto lg:grid-cols-2 lg:gap-10 lg:px-20">
       <section className="md:my-auto">
         <h1 className="text-3xl font-bold sm:text-4xl">
           <span className="gradient-primary-text">Who am I?</span>

@@ -1,21 +1,25 @@
 type CenterLayoutProps = {
+  variant?: "div" | "main" | "header";
   children: React.ReactNode;
   className?: string;
-  main?: boolean;
   overflowX?: boolean;
 };
 
 export default function CenterLayout({
+  variant = "main",
   children,
   className,
-  main = false,
   overflowX = false,
 }: CenterLayoutProps) {
   const layoutClass = `w-full max-w-7xl relative ${
     !overflowX ? "overflow-x-hidden" : ""
   } ${className}`;
-  if (main) {
+
+  if (variant === "header") {
+    return <header className={layoutClass}>{children}</header>;
+  } else if (variant === "main") {
     return <main className={layoutClass}>{children}</main>;
+  } else {
+    return <div className={layoutClass}>{children}</div>;
   }
-  return <div className={layoutClass}>{children}</div>;
 }

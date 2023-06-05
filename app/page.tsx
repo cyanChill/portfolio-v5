@@ -5,7 +5,7 @@ import CenterLayout from "@/components/layout/CenterLayout";
 
 export default function Home() {
   return (
-    <CenterLayout className="my-auto px-6 sm:px-20" main>
+    <CenterLayout className="my-auto px-6 sm:px-20">
       <h1 className="text-4xl font-bold sm:text-6xl">Anthony Liang</h1>
 
       <p className="mt-4 font-light opacity-50 sm:text-2xl">
@@ -14,10 +14,7 @@ export default function Home() {
       </p>
 
       <p className="text-2xl font-bold sm:text-4xl">
-        <span className="gradient-primary-text">
-          Full-Stack
-        </span>{" "}
-        Developer
+        <span className="gradient-primary-text">Full-Stack</span> Developer
       </p>
 
       <p className="mt-4 max-w-[40ch] text-xs leading-5 opacity-80 sm:text-base">

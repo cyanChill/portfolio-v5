@@ -26,7 +26,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.className} relative flex min-h-screen flex-col items-center overflow-x-hidden bg-slate-950 bg-no-repeat text-white sm:!overflow-y-auto`}
+        className={`${inter.className} relative flex min-h-screen flex-col items-center overflow-x-hidden bg-primary-bkg bg-no-repeat text-white sm:!overflow-y-auto`}
       >
         <Toaster
           position="bottom-right"

@@ -5,10 +5,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <CenterLayout
-      className="my-20 grid gap-4 px-4 sm:py-8 md:my-auto md:grid-cols-2 md:gap-10 md:px-20"
-      main
-    >
+    <CenterLayout className="my-20 grid gap-4 px-4 sm:py-8 md:my-auto md:grid-cols-2 md:gap-10 md:px-20">
       <Image
         src="/ui/error-img.svg"
         width={489}

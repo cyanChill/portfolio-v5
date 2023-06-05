@@ -34,7 +34,7 @@ export default function NavBar() {
   else if (pathname === "/about") bkgPattern += "bg-about-pattern";
   else if (pathname === "/projects") bkgPattern += "bg-projects-pattern";
   else if (pathname.startsWith("/projects/overview")) {
-    bkgPattern += "bg-slate-950";
+    bkgPattern += "bg-primary-bkg";
   } else if (pathname === "/contact") bkgPattern += "bg-contact-pattern";
   else bkgPattern += "bg-error-pattern";
 
@@ -67,9 +67,9 @@ export default function NavBar() {
         <span className="sr-only">Menu</span>
       </button>
 
-      <CenterLayout>
+      <CenterLayout variant="header">
         <nav
-          className={`fixed left-0 top-0 z-40 flex h-screen w-screen flex-col overflow-y-auto overscroll-none bg-slate-950 px-12 sm:relative sm:mx-6 sm:mt-4 sm:h-auto sm:w-auto sm:flex-row sm:items-center sm:justify-between sm:bg-transparent sm:px-0 ${
+          className={`fixed left-0 top-0 z-40 flex h-screen w-screen flex-col overflow-y-auto overscroll-none bg-primary-bkg px-12 sm:relative sm:mx-6 sm:mt-4 sm:h-auto sm:w-auto sm:flex-row sm:items-center sm:justify-between sm:bg-transparent sm:px-0 ${
             isOpen
               ? "visible"
               : "pointer-events-none invisible sm:pointer-events-auto sm:visible"

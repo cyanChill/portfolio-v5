@@ -81,7 +81,7 @@ const Input = ({ label, register, error, type = "text" }: InputProps) => {
       />
       <label
         htmlFor={label}
-        className="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-90 transform bg-slate-950 px-2 text-sm duration-300 peer-placeholder-shown:top-6 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-90 peer-focus:text-fuchsia-400"
+        className="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-90 transform bg-primary-bkg px-2 text-sm duration-300 peer-placeholder-shown:top-6 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-90 peer-focus:text-fuchsia-400"
       >
         {label}
       </label>
@@ -105,7 +105,7 @@ const TextArea = ({ label, register, error, rows = 3 }: TextAreaProps) => {
       />
       <label
         htmlFor={label}
-        className="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-90 transform bg-slate-950 px-2 text-sm duration-300 peer-placeholder-shown:top-6 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-90 peer-focus:text-fuchsia-400"
+        className="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-4 scale-90 transform bg-primary-bkg px-2 text-sm duration-300 peer-placeholder-shown:top-6 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-90 peer-focus:text-fuchsia-400"
       >
         {label}
       </label>

@@ -8,7 +8,7 @@ const HEIGHTS = [345, 375, 400];
 
 export default function Projects() {
   return (
-    <CenterLayout className="my-20 px-6 sm:py-8 md:px-20" main>
+    <CenterLayout className="my-20 px-6 sm:py-8 md:px-20">
       <h1 className="text-3xl font-bold sm:text-4xl">
         <span className="gradient-primary-text">Projects</span>
       </h1>
