@@ -82,6 +82,7 @@ export default async function ProjectOverview({ params }: PageProps) {
           <h1 className="mb-2 text-4xl font-bold lg:text-5xl">
             {projectData.title}
           </h1>
+          <p className="text-sm lg:text-base mb-8 lg:mb-12">{projectData.brief}</p>
           <Image
             src={projectData.thumbnail.url}
             width={1080}
