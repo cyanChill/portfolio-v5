@@ -1,9 +1,12 @@
 import Image from "next/image";
 import { useMDXComponent } from "next-contentlayer/hooks";
 
+import ImageViewer from "./ImageViewer";
+
 // Custom components we'll override with
 const components = {
   Image,
+  ImageViewer
 };
 
 type MdxProps = {
