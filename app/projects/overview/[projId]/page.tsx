@@ -79,10 +79,10 @@ export default async function ProjectOverview({ params }: PageProps) {
           <p className="font-black lg:text-2xl">
             <span className="gradient-primary-text">{project.duration}</span>
           </p>
-          <h1 className="mb-2 text-4xl font-bold lg:text-5xl">
-            {projectData.title}
-          </h1>
-          <p className="text-sm lg:text-base mb-8 lg:mb-12">{projectData.brief}</p>
+          <h1 className="mb-2 text-5xl font-bold">{projectData.title}</h1>
+          <p className="mb-8 text-sm lg:mb-12 lg:text-base">
+            {projectData.brief}
+          </p>
           <Image
             src={projectData.thumbnail.url}
             width={1080}
@@ -104,9 +104,9 @@ export default async function ProjectOverview({ params }: PageProps) {
         overflowX={true}
       >
         {/* Main markdown content */}
-        <section>
+        <article className="prose prose-invert">
           <Mdx code={project.body.code} />
-        </section>
+        </article>
         {/* Sidebar with technologies & links */}
         <aside className="row-start-1 h-fit rounded-lg bg-slate-800 p-2 lg:sticky lg:top-4 lg:col-start-2">
           <p className="mb-1 font-bold lg:text-lg">Technologies</p>
