@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 
 import { PROJECTS } from "@/appData/projects";
@@ -6,14 +9,37 @@ import CenterLayout from "@/components/layout/CenterLayout";
 /* How Tailwind columns work is that it goes downwards then right */
 const HEIGHTS = [345, 375, 400];
 
+type FilterType = "all" | "featured";
+
 export default function Projects() {
+  const [filter, setFilter] = useState<FilterType>("all");
+
+  const displayedProjects =
+    filter === "all" ? PROJECTS : PROJECTS.filter((proj) => proj.featured);
+
   return (
     <CenterLayout className="my-20 px-6 sm:py-8 md:px-20">
       <h1 className="text-3xl font-bold sm:text-4xl">
         <span className="gradient-primary-text">Projects</span>
       </h1>
+
+      <div className="my-4 flex items-center justify-center text-sm">
+        <FilterButton
+          active={filter === "all"}
+          onClick={() => setFilter("all")}
+        >
+          All
+        </FilterButton>
+        <FilterButton
+          active={filter === "featured"}
+          onClick={() => setFilter("featured")}
+        >
+          Featured
+        </FilterButton>
+      </div>
+
       <section className="mt-5 columns-1 gap-4 lg:columns-2">
-        {PROJECTS.map((proj, idx) => (
+        {displayedProjects.map((proj, idx) => (
           <Link
             key={proj.title}
             href={`/projects/overview/${proj.title
@@ -52,3 +78,22 @@ export default function Projects() {
     </CenterLayout>
   );
 }
+
+type FilterButtonProps = {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+};
+
+const FilterButton = ({ active, onClick, children }: FilterButtonProps) => {
+  return (
+    <button
+      onClick={onClick}
+      className={`mx-2 rounded-md p-2.5 py-1.5 transition duration-300 ${
+        active ? "scale-125 !bg-slate-800 font-bold" : "font-medium"
+      }`}
+    >
+      {children}
+    </button>
+  );
+};

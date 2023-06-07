@@ -1,4 +1,5 @@
 export type ProjectData = {
+  featured: boolean;
   thumbnail: { url: string; colorHex: string };
   title: string;
   brief: string;
@@ -7,6 +8,7 @@ export type ProjectData = {
 
 export const PROJECTS: ProjectData = [
   {
+    featured: false,
     thumbnail: {
       url: "/projects/portfolio/thumbnail.webp",
       colorHex: "#867dbc",
@@ -16,6 +18,7 @@ export const PROJECTS: ProjectData = [
     technologies: ["Next.js", "TypeScript", "TailwindCSS", "AWS", "Upstash"],
   },
   {
+    featured: true,
     thumbnail: {
       url: "/projects/gitinspire/thumbnail.webp",
       colorHex: "#ddcce4",
@@ -33,6 +36,7 @@ export const PROJECTS: ProjectData = [
     ],
   },
   {
+    featured: true,
     thumbnail: {
       url: "/projects/odinworks/thumbnail.webp",
       colorHex: "#83a3f7",
@@ -42,6 +46,7 @@ export const PROJECTS: ProjectData = [
     technologies: ["React", "Node.js", "Express", "MongoDB", "Firebase"],
   },
   {
+    featured: true,
     thumbnail: {
       url: "/projects/next-instagram/thumbnail.webp",
       colorHex: "#ff8f66",
@@ -51,6 +56,7 @@ export const PROJECTS: ProjectData = [
     technologies: ["Next.js", "MongoDB", "Firebase"],
   },
   {
+    featured: false,
     thumbnail: {
       url: "/projects/gradschoolzero/thumbnail.webp",
       colorHex: "#aaf5ac",
@@ -61,6 +67,7 @@ export const PROJECTS: ProjectData = [
     technologies: ["React", "Bootstrap", "JSON Server"],
   },
   {
+    featured: false,
     thumbnail: {
       url: "/projects/pc-parts-list/thumbnail.webp",
       colorHex: "#ff6666",
@@ -71,6 +78,7 @@ export const PROJECTS: ProjectData = [
     technologies: ["Node.js", "Express", "Pug", "MongoDB", "Workbox"],
   },
   {
+    featured: false,
     thumbnail: {
       url: "/projects/canal-street-market/thumbnail.webp",
       colorHex: "#fff482",
@@ -81,6 +89,7 @@ export const PROJECTS: ProjectData = [
     technologies: ["React", "TypeScript"],
   },
   {
+    featured: false,
     thumbnail: {
       url: "/projects/doelist/thumbnail.webp",
       colorHex: "#646cc9",
@@ -90,6 +99,7 @@ export const PROJECTS: ProjectData = [
     technologies: ["HTML", "CSS", "JavaScript", "Webpack", "Workbox"],
   },
   {
+    featured: false,
     thumbnail: {
       url: "/projects/space-tourism-site/thumbnail.webp",
       colorHex: "#2956ce",
@@ -100,6 +110,7 @@ export const PROJECTS: ProjectData = [
     technologies: ["React", "HTML", "CSS", "JavaScript"],
   },
   {
+    featured: false,
     thumbnail: {
       url: "/projects/shopping-cart-app/thumbnail.webp",
       colorHex: "#e0e0e0",
