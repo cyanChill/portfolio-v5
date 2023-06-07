@@ -104,7 +104,7 @@ export default async function ProjectOverview({ params }: PageProps) {
         overflowX={true}
       >
         {/* Main markdown content */}
-        <article className="prose prose-invert">
+        <article className="prose prose-invert mx-auto">
           <Mdx code={project.body.code} />
         </article>
         {/* Sidebar with technologies & links */}

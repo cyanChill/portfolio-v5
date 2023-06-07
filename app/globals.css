@@ -24,3 +24,25 @@
     @apply gradient-primary bg-gradient-to-r bg-clip-text text-transparent;
   }
 }
+
+@layer utilities {
+  /* Custom Scrollbar */
+  .scrollbar::-webkit-scrollbar {
+    height: 7px;
+    width: 7px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 1rem;
+    background: hsl(228 2% 45%);
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background: hsl(0 0% 75%);
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(0 0% 94%);
+  }
+}

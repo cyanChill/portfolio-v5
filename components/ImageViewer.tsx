@@ -12,23 +12,23 @@ export default function ImageViewer({ images, gutter = 0 }: ImageViewerProps) {
   const [selIdx, setSelIdx] = useState(0);
 
   return (
-    <>
+    <div
+      style={{ "--gutter": `${gutter}px` } as CSSProperties}
+      className="w-full max-w-[calc(100vw-(2*var(--gutter)))]"
+    >
       <Image
         src={images[selIdx].url}
         alt={images[selIdx].alt}
         width={1080}
         height={720}
-        className="object-fit my-4 rounded-lg"
+        className="my-4 max-h-96 rounded-lg object-contain"
       />
       <p className="my-2 text-sm italic">{images[selIdx].alt}</p>
-      <div
-        style={{ "--gutter": `${gutter}px` } as CSSProperties}
-        className="my-4 flex max-w-[calc(100vw-(2*var(--gutter)))] gap-1 overflow-x-auto"
-      >
+      <div className="scrollbar my-4 flex gap-1 overflow-x-auto">
         {images.map((img, idx) => (
           <button
             key={idx}
-            className={`mx-2 w-48 shrink-0 transition duration-300 ${
+            className={`mx-2 w-40 shrink-0 transition duration-300 ${
               idx !== selIdx ? "opacity-50 hover:opacity-100" : ""
             }`}
             onClick={() => setSelIdx(idx)}
@@ -43,6 +43,6 @@ export default function ImageViewer({ images, gutter = 0 }: ImageViewerProps) {
           </button>
         ))}
       </div>
-    </>
+    </div>
   );
 }
