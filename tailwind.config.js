@@ -9,6 +9,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        "pop-in": "pop-in 300ms ease-in-out 150ms forwards",
+      },
       backgroundImage: {
         "home-pattern": "var(--blur-gradient), url('/ui/home-pattern.svg')",
         "about-pattern": "var(--blur-gradient), url('/ui/about-pattern.svg')",
@@ -32,10 +35,16 @@ module.exports = {
         "pg-start": "rgb(255 0 230 / 1)",
         "pg-to": "rgb(255 131 61 / 0.86)",
       },
+      keyframes: {
+        "pop-in": {
+          "0%": { opacity: 0, transform: "translateY(1.5rem)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+      },
     },
   },
   plugins: [
-    require('@tailwindcss/typography'),
+    require("@tailwindcss/typography"),
     plugin(function ({ addVariant }) {
       addVariant("hocus", ["&:hover", "&:focus"]);
     }),

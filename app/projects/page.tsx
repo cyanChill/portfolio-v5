@@ -38,7 +38,10 @@ export default function Projects() {
         </FilterButton>
       </div>
 
-      <section className="mt-5 columns-1 gap-4 lg:columns-2">
+      <section
+        key={filter}
+        className="mt-5 animate-pop-in columns-1 gap-4 opacity-0 lg:columns-2"
+      >
         {displayedProjects.map((proj, idx) => (
           <Link
             key={proj.title}
