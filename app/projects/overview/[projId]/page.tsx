@@ -130,29 +130,35 @@ export default async function ProjectOverview({ params }: PageProps) {
           </div>
           <div className="mt-2 lg:mt-4">
             {project.website !== "" && (
-              <Link
+              <a
                 href={project.website}
-                className="my-1 flex items-center gap-1 text-sm hocus:font-semibold hocus:underline md:text-base"
+                target="_blank"
+                referrerPolicy="no-referrer"
+                className="my-1 flex items-center gap-1 text-sm no-underline hocus:font-semibold hocus:underline md:text-base"
               >
                 <FaGlobeAmericas />
                 View Project in Action
-              </Link>
+              </a>
             )}
-            <Link
+            <a
               href={project.github}
-              className="my-1 flex items-center gap-1 text-sm hocus:font-semibold hocus:underline md:text-base"
+              target="_blank"
+              referrerPolicy="no-referrer"
+              className="my-1 flex items-center gap-1 text-sm no-underline hocus:font-semibold hocus:underline md:text-base"
             >
               <FaGithub />
               View Project Code
-            </Link>
+            </a>
           </div>
         </aside>
       </CenterLayout>
       {/* To top button */}
       <button
-        style={{
-          "--gutter": "calc(((100vw - 80rem)/2) + 1rem)",
-        } as CSSProperties}
+        style={
+          {
+            "--gutter": "calc(((100vw - 80rem)/2) + 1rem)",
+          } as CSSProperties
+        }
         className="fixed bottom-4 right-[max(1rem,var(--gutter))] rounded-full bg-primary p-2 text-2xl"
         onClick={scrollToTop}
       >
