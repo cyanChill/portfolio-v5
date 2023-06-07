@@ -1,10 +1,12 @@
+"use client";
+
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { CSSProperties } from "react";
 import { BsArrowLeftCircle } from "react-icons/bs";
-import { FaGlobeAmericas, FaGithub } from "react-icons/fa";
+import { FaGlobeAmericas, FaGithub, FaChevronUp } from "react-icons/fa";
 import { allProjects } from "contentlayer/generated";
 
 import { PROJECTS } from "@/appData/projects";
@@ -57,6 +59,10 @@ const projectOrErr = async (projId: string) => {
 export default async function ProjectOverview({ params }: PageProps) {
   const { project, projectData } = await projectOrErr(params.projId);
 
+  const scrollToTop = () => {
+    if (window) window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
       <section
@@ -79,7 +85,9 @@ export default async function ProjectOverview({ params }: PageProps) {
           <p className="font-black lg:text-2xl">
             <span className="gradient-primary-text">{project.duration}</span>
           </p>
-          <h1 className="mb-2 text-5xl font-bold">{projectData.title}</h1>
+          <h1 className="mb-2 break-words text-5xl font-bold">
+            {projectData.title}
+          </h1>
           <p className="mb-8 text-sm lg:mb-12 lg:text-base">
             {projectData.brief}
           </p>
@@ -97,14 +105,14 @@ export default async function ProjectOverview({ params }: PageProps) {
           />
         </div>
         {/* Spacer for bottom */}
-        <div className="absolute bottom-0 -z-[1] h-20 w-full bg-primary-bkg" />
+        <div className="absolute bottom-0 -z-[1] h-20 w-full bg-slate-900" />
       </section>
       <CenterLayout
-        className="mb-12 mt-4 grid gap-2 px-6 md:px-20 lg:grid-cols-[1fr_17.5rem]"
+        className="mb-12 mt-4 grid w-full gap-2 px-6 md:px-20 lg:grid-cols-[1fr_17.5rem]"
         overflowX={true}
       >
         {/* Main markdown content */}
-        <article className="prose prose-invert mx-auto">
+        <article className="prose prose-invert mx-auto w-full min-w-0">
           <Mdx code={project.body.code} />
         </article>
         {/* Sidebar with technologies & links */}
@@ -140,6 +148,16 @@ export default async function ProjectOverview({ params }: PageProps) {
           </div>
         </aside>
       </CenterLayout>
+      {/* To top button */}
+      <button
+        style={{
+          "--gutter": "calc(((100vw - 80rem)/2) + 1rem)",
+        } as CSSProperties}
+        className="fixed bottom-4 right-[max(1rem,var(--gutter))] rounded-full bg-primary p-2 text-2xl"
+        onClick={scrollToTop}
+      >
+        <FaChevronUp />
+      </button>
     </>
   );
 }

@@ -12,16 +12,13 @@ export default function ImageViewer({ images, gutter = 0 }: ImageViewerProps) {
   const [selIdx, setSelIdx] = useState(0);
 
   return (
-    <div
-      style={{ "--gutter": `${gutter}px` } as CSSProperties}
-      className="w-full max-w-[calc(100vw-(2*var(--gutter)))]"
-    >
+    <div>
       <Image
         src={images[selIdx].url}
         alt={images[selIdx].alt}
         width={1080}
         height={720}
-        className="my-4 max-h-96 rounded-lg object-contain"
+        className="mx-auto my-4 max-h-96 w-fit rounded-lg object-contain"
       />
       <p className="my-2 text-sm italic">{images[selIdx].alt}</p>
       <div className="scrollbar my-4 flex gap-1 overflow-x-auto">

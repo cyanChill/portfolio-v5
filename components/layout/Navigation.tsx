@@ -34,7 +34,7 @@ export default function NavBar() {
   else if (pathname === "/about") bkgPattern += "bg-about-pattern";
   else if (pathname === "/projects") bkgPattern += "bg-projects-pattern";
   else if (pathname.startsWith("/projects/overview")) {
-    bkgPattern += "bg-primary-bkg";
+    bkgPattern += "bg-slate-900";
   } else if (pathname === "/contact") bkgPattern += "bg-contact-pattern";
   else bkgPattern += "bg-error-pattern";
 

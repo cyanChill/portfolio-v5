@@ -12,10 +12,7 @@ type ComponentProps = {
 const components = {
   // We default the page gutters to be 1.5rem
   pre: ({ className, ...props }: ComponentProps) => (
-    <pre
-      className="scrollbar w-full max-w-[calc(100vw-48px)] overflow-x-auto"
-      {...props}
-    />
+    <pre className="scrollbar overflow-x-auto" {...props} />
   ),
   Image,
   ImageViewer,
