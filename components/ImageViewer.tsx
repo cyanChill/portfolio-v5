@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 type ImageViewerProps = {
   images: { url: string; alt: string }[];
-  gutter?: number;
 };
 
-export default function ImageViewer({ images, gutter = 0 }: ImageViewerProps) {
+export default function ImageViewer({ images }: ImageViewerProps) {
   const [selIdx, setSelIdx] = useState(0);
 
   return (

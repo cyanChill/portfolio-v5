@@ -105,7 +105,7 @@ export default async function ProjectOverview({ params }: PageProps) {
           />
         </div>
         {/* Spacer for bottom */}
-        <div className="absolute bottom-0 -z-[1] h-20 w-full bg-slate-900" />
+        <div className="absolute bottom-0 -z-[1] h-20 w-full bg-primary-bkg" />
       </section>
       <CenterLayout
         className="mb-12 mt-4 grid w-full gap-2 px-6 md:px-20 lg:grid-cols-[1fr_17.5rem]"
