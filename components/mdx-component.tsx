@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useMDXComponent } from "next-contentlayer/hooks";
 
 import ImageViewer from "./ImageViewer";
@@ -21,6 +22,7 @@ const components = {
   ),
   Image,
   ImageViewer,
+  Link,
   MdxNotice,
 };
 

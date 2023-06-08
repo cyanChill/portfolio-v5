@@ -43,7 +43,7 @@ export const PROJECTS: ProjectData = [
     },
     title: "OdinWorks",
     brief: "View posts from a private network of friends.",
-    technologies: ["React", "Node.js", "Express", "MongoDB", "Firebase"],
+    technologies: ["React", "Node.js", "Express", "Passport", "MongoDB", "Firebase"],
   },
   {
     featured: true,
@@ -53,7 +53,7 @@ export const PROJECTS: ProjectData = [
     },
     title: "Next-Instagram",
     brief: "Share a visual representation of your life to the world.",
-    technologies: ["Next.js", "MongoDB", "Firebase"],
+    technologies: ["Next.js", "Auth.js", "MongoDB", "Firebase"],
   },
   {
     featured: false,

@@ -1,0 +1,142 @@
+---
+heroHex: "#4f7d53"
+projectName: OdinWorks
+duration: August 2022
+website: https://odin-works.netlify.app/
+github: https://github.com/cyanChill/OdinWorks
+---
+
+This is an application that I made for The Odin Project's [Odin-Book](https://www.theodinproject.com/lessons/nodejs-odin-book) project for their Node.js course. The overall goal is to create a clone of Facebook using Express and MongoDB.
+
+<a href="#demo-video">Skip to Demo Video</a>
+
+## What's the Goal of this Application?
+
+The goal of this application is to provide an alternative way for users to connect with their friends and take a glance at their lives through the posts they create. With this application, privacy is a focal point, with users being able to see what goes on in the application through looking at the source code that's publicly available.
+
+## Features
+
+Users must be logged in to interact with the application.
+
+- They can create an account using their email.
+- They can login using their Facebook account.
+- They can try the application using the demo account.
+
+Once logged in, users can:
+
+- Send friend requests to other users which must be accepted by that person to gain access to their posts.
+- Create posts with an image.
+- Write comments on posts.
+- Like posts & comments.
+- Change their profile picture by uploading an image.
+
+## Demo Video
+
+<video src="/projects/odinworks/demo.mp4" controls muted />
+
+## Building the Application
+
+### Setup
+
+For this application, compared to PC Parts List, I decided to create an Express app from scratch instead of using the Express template created from `express-generator`. In addition, instead of using a template engine, I decided to write the front end on React.
+
+### Challenge 1: Authentication
+
+`Passport` is an authentication middleware for Node.js that can be easily integrated with Express applications. This allows us to set up authentication using a username & password along with Facebook.
+
+This is pretty much the first time I used this library, and the documentation was helpful for the most part. At the time I was working on this project, there was no documentation on how we would authenticate with Facebook, so that took some figuring out to do. In addition, authenticating with Facebook was difficult due to trying to figure out how to register our application with Facebook as Facebook's developer interface is a bit cluttered.
+
+### Challenge 2: Content Distribution
+
+#### Limiting Our Content to Friends
+
+One of the main focal points of this application is that the content we post is only visible to our friends. This means I need to figure out how we can restrict routes in the back end such that only the people with access can read it (ie: owners or friends).
+
+The method I decided on to solve this problem is to create middleware that checks if the current user is a friend, or the owner of the content being accessed. This is applied to the routes which end in `/:userId`, which specifies content for that user.
+
+#### Displaying a Feed of Accessible Content
+
+The next problem I need to figure out is how we would create a feed such that it only contains content from either us or our friends. This ended up being solved in a simple way in fact. Due to these routes typically being limited to authenticated users and since we require knowing the user who's accessing these routes, we save the user object in the requests made to our back-end routes. On these user objects, we have a property which is an array containing the ids of our friends. So, to get a feed of content we have access to, we can query our database to look for content from any user in that array plus our user id.
+
+### More Mongoose Learnings
+
+Since some of our models contain arrays (ie: containing list of friends or likers), I need a way to insert values into those arrays safely (ie: when adding a friend or liking a post). With using Mongoose as an interface for MongoDB, I've been using the `$push` operator to add values to those arrays. However, if we think about it, it's not safe as it might be possible to push a value multiple times into that array if a user maliciously opens multiple tabs and does an action all at the same time. To combat this, I found the `$addToSet` operator to be a better fit as it'll allow the array to only have a single copy of a value due to treating it as a set with this operation.
+
+### Challenge 3: Uploading Images
+
+Since I want to host this application, saving images locally wasn't going to be an option. I've decided to utilize **Firebase Storage** as the method of storing the images uploaded to my application due to it being free and our application being a small project, in which storage concerns isn't that much of an issue. To interact with Firebase in the back end, it's necessary to use `firebase-admin`.
+
+Essentially, we followed a similar pattern to what was done with <Link href="/projects/overview/pc-parts-list#improvement-1-adding-image-upload">uploading images with my PC Parts List project</Link>. There are some differences, however. The first difference is that we're using the `sharp` library to convert our image into the `.webp` format for lower storage size. Second, is that we have to upload that image to Firebase Storage and get a link to its location. Luckily, there's a method in which we can direct where the file will be stored and get a permanent link to its location.
+
+We first want to create a file path for where the file will be located.
+
+```javascript
+const destination = `odinworks/${uploaderId}/${imgRefId}.webp`;
+```
+
+We then want to create something called a "download token", which will be used to help create a permanent link to that file. In our case, we'll use a uuid string for its value.
+
+```javascript
+const downloadToken = uuidv4();
+```
+
+Then, we want to upload the image and update its metadata to contain this download token which will be used in the permanent link to the image.
+
+```javascript
+const newFile = bucket.file(destination);
+await newFile.save(webpBuffer); // Upload Image
+// Update metadata for obtainable downloadUrl
+await newFile.setMetadata({
+  metadata: { firebaseStorageDownloadTokens: downloadToken },
+});
+```
+
+Finally, the permanent link to the image is formatted in the following way that consists of the image location, its download token, and the name used for our Firebase storage (automatically generated by Firebase when we create a Firebase application).
+
+```javascript
+return `https://firebasestorage.googleapis.com/v0/b/${
+  process.env.FIREBASE_BUCKET_NAME
+}.appspot.com/o/${encodeURIComponent(
+  destination
+)}?alt=media&token=${downloadToken}`;
+```
+
+Having access to this link also allows us to delete the file as we can extract the file location from the link which is used for file deletion in Firebase.
+
+### Demo Account
+
+Since some users may want to try the application without creating an account, I provided a demo account they can use on the login screen. With this in mind, we need to modify our back end a bit such that the demo account is always available (for example, you can't delete it). All other features are available, such as making friends, creating posts & comments, and updating our profile.
+
+> I'm aware there's an inherent risk of having this demo account as malicious users may do some unsavory things on the account as the data doesn't get reset.
+
+### Tests
+
+For the back end, I did write some tests fork mocking login & signup requests, creating posts & comments, deleting posts & comments, and fetching users. All of this required reconfiguring how I imported MongoDB into our Express application. This means I'll utilize a fake MongoDB database with `mongodb-memory-server` along with the `supertest` library to mock requests to my back-end endpoints.
+
+### Debugging
+
+Sometimes, we may want some debug messages on productions. However, not all debug messages should appear as they may clutter up the console. That's where the `debug` library comes in, which allows us to label console log messages and conditionally allow which ones to show during a development environment or in the production environment.
+
+We can create a "label" for the debug messages and use it to log values into the console with the following code:
+
+```javascript
+const debug = require("debug")("authController");
+debug(err);
+```
+
+Then, we use the `DEBUG` environment variable (located in the `.env` file) and give it a comma-separated list of labels which will allow those labels to display their debug messages in the console. So, in a development environment, the `DEBUG` environment variable may contain all the debug labels while in production, only some of those labels are in the `DEBUG` variable.
+
+### Rate Limiting
+
+For logins and signups, I added a rate limiter to limit 5 requests every 15 minutes to the login route & 10 requests per hour for the signup route. This will probably never be encountered by the user unless they try brute-forcing into an account that they don't own.
+
+## Overall Learnings
+
+1. Setting up authentication using Passport.
+2. Using middleware as a method to deterministically distribute content.
+3. Using features of Mongoose to safely prevent duplicate entries in an array field in our data.
+4. Uploading images to Firebase instead of saving them locally.
+5. Setting up a demo account for users to try my application without signing in.
+6. Doing integration tests on my server using SuperTest and a mock MongoDB database with `mongodb-memory-server`.
+7. Conditionally show what debug messages appear for production and development environments.
+8. Rate limiting routes on my server.
