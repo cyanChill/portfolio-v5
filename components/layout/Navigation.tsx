@@ -55,7 +55,6 @@ export default function NavBar() {
       {/* Mobile nav control */}
       <button
         className={navToggleClass}
-        aria-controls="primary-navigation"
         onClick={() =>
           setIsOpen((prev) => {
             setNavState(!prev);
@@ -63,8 +62,8 @@ export default function NavBar() {
           })
         }
       >
-        {!isOpen ? <RiMenu4Line /> : <RiCloseLine />}
         <span className="sr-only">Menu</span>
+        {!isOpen ? <RiMenu4Line /> : <RiCloseLine />}
       </button>
 
       <CenterLayout variant="header">

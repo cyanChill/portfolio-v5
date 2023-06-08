@@ -162,6 +162,7 @@ export default async function ProjectOverview({ params }: PageProps) {
         className="fixed bottom-4 right-[max(1rem,var(--gutter))] rounded-full bg-primary p-2 text-2xl"
         onClick={scrollToTop}
       >
+        <span className="sr-only">Scroll to Top</span>
         <FaChevronUp />
       </button>
     </>
