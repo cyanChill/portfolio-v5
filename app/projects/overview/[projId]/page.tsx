@@ -1,17 +1,16 @@
-"use client";
-
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { CSSProperties } from "react";
 import { BsArrowLeftCircle } from "react-icons/bs";
-import { FaGlobeAmericas, FaGithub, FaChevronUp } from "react-icons/fa";
+import { FaGlobeAmericas, FaGithub } from "react-icons/fa";
 import { allProjects } from "contentlayer/generated";
 
 import { PROJECTS } from "@/appData/projects";
 import Mdx from "@/components/mdx-component";
 import CenterLayout from "@/components/layout/CenterLayout";
+import ScrollTopBtn from "@/components/projects-overview-scrollTop";
 
 type PageProps = {
   params: { projId: string };
@@ -58,10 +57,6 @@ const projectOrErr = async (projId: string) => {
 
 export default async function ProjectOverview({ params }: PageProps) {
   const { project, projectData } = await projectOrErr(params.projId);
-
-  const scrollToTop = () => {
-    if (window) window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   return (
     <>
@@ -134,7 +129,7 @@ export default async function ProjectOverview({ params }: PageProps) {
                 href={project.website}
                 target="_blank"
                 referrerPolicy="no-referrer"
-                className="my-1 flex items-center gap-1 text-sm no-underline hocus:font-semibold hocus:underline md:text-base"
+                className="my-1 flex items-center gap-1 no-underline hocus:font-semibold hocus:underline md:text-lg"
               >
                 <FaGlobeAmericas />
                 View Project in Action
@@ -144,7 +139,7 @@ export default async function ProjectOverview({ params }: PageProps) {
               href={project.github}
               target="_blank"
               referrerPolicy="no-referrer"
-              className="my-1 flex items-center gap-1 text-sm no-underline hocus:font-semibold hocus:underline md:text-base"
+              className="my-1 flex items-center gap-1 no-underline hocus:font-semibold hocus:underline md:text-lg"
             >
               <FaGithub />
               View Project Code
@@ -152,19 +147,8 @@ export default async function ProjectOverview({ params }: PageProps) {
           </div>
         </aside>
       </CenterLayout>
-      {/* To top button */}
-      <button
-        style={
-          {
-            "--gutter": "calc(((100vw - 80rem)/2) + 1rem)",
-          } as CSSProperties
-        }
-        className="fixed bottom-4 right-[max(1rem,var(--gutter))] rounded-full bg-primary p-2 text-2xl"
-        onClick={scrollToTop}
-      >
-        <span className="sr-only">Scroll to Top</span>
-        <FaChevronUp />
-      </button>
+
+      <ScrollTopBtn />
     </>
   );
 }

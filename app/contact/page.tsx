@@ -1,7 +1,12 @@
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 import CenterLayout from "@/components/layout/CenterLayout";
-import ContactForm from "./ContactForm";
+import ContactForm from "@/components/contact-form";
+
+export const metadata = {
+  title: "Contact | Anthony Liang",
+  description: "Let's work together.",
+};
 
 export default function Contact() {
   return (

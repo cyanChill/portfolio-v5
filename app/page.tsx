@@ -33,7 +33,7 @@ export default function Home() {
           href="/about"
           className="flex items-center rounded-md border-2 border-primary p-2 py-1 text-center sm:p-3 sm:py-1.5"
         >
-          Learn More
+          Learn More <span className="sr-only">About Me</span>
         </Link>
       </div>
 

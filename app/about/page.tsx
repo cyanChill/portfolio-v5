@@ -1,7 +1,12 @@
 import Image from "next/image";
 
-import CenterLayout from "@/components/layout/CenterLayout";
 import * as skillData from "@/appData/skills";
+import CenterLayout from "@/components/layout/CenterLayout";
+
+export const metadata = {
+  title: "About | Anthony Liang",
+  description: "Learn more about me.",
+};
 
 export default function About() {
   return (
