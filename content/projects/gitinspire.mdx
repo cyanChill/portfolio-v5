@@ -13,9 +13,7 @@ github: https://github.com/cyanChill/GitInspire
 
 This is an application that I made for my senior project which spanned over 2 semesters (September - May), which was broken up into 2 phases. The first phase (September - December) was the planning process and coming up with the idea. The second phase (December - May) consisted of bringing the application to life.
 
-## Demo Video
-
-<video src="/projects/gitinspire/demo.mp4" controls muted />
+<a href="#demo-video">Skip to Demo Video</a>
 
 ## Motivation
 
@@ -28,6 +26,26 @@ My application aims to fix this problem; however, it requires the help of develo
 In addition to having the feature of displaying repositories "suggested" by developers, I also want to provide an option similar to GitHub's "Advanced search" feature built-in to my application such that the user doesn't need to have multiple tabs open to accomplish the same task. My version of "Advanced search" will be slightly toned down, but comparable to the original as it'll allow users to filter repositories by stars and languages.
 
 One problem that I foresee is that due to having developers suggest repositories, the potential for abuse arises. I plan to solve this by first only allowing access to suggesting repositories through authenticated user which will be handled through GitHub login. Second, only users whose GitHub account age is over 3 months old can suggest repositories. To keep allow for expandability and better filtering, users whose GitHub account age is over 1 year old can suggest "tags" that'll be used to label repositories and what I'll be using to create these filtered searches.
+
+## Features
+
+Everyday users will have the ability to:
+
+- Search for random repositories given filters the user provides.
+- Search from our database of "suggested" repositories labeled with multiple tags that fit the user's criteria using filters.
+- Log into our application using their GitHub account.
+
+Authenticated users that are >3 months old have the ability to:
+
+- Contribute to the application by "suggesting" repositories and labeling them accordingly.
+
+Authenticated users that are >1 year old have the ability to:
+
+- Contribute to the application by "suggesting" "tags" that can be used to better label the repositories suggested by other users.
+
+## Demo Video
+
+<video src="/projects/gitinspire/demo.mp4" controls muted />
 
 ## Planning Phase (September 2022 - December 2022)
 
