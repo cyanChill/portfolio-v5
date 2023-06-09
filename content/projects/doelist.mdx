@@ -6,15 +6,27 @@ website: https://doelist.netlify.app/
 github: https://github.com/cyanChill/Doelist/
 ---
 
-This is an application that I made for The Odin Project's [Todo List](https://www.theodinproject.com/lessons/node-path-javascript-todo-list) project for their JavaScript course. This acted an early project in our JavaScript learning experience where we learned how to use Webpack. The goal was to create an application to hold a list of todos.
+This is an application that I made for The Odin Project's [Todo List](https://www.theodinproject.com/lessons/node-path-javascript-todo-list) project for their JavaScript course. This acted as an early project in our JavaScript learning experience where we learned how to use Webpack. The goal was to create an application to hold a list of to-dos.
 
 <a href="#demo-video">Skip to Demo Video</a>
 
 ## What's the Goal of this Application?
 
+The overall goal of this application is to provide the user with a place to organize their thoughts by allowing them to write and organize to-dos in an interface that's easy to use. In addition, the user can set a priority on the to-do along with attaching a due date.
 
 ## Features
 
+- Adding/editing/deleting to-dos.
+- Set 3 levels of priorities on to-dos along with a due date.
+- Create & delete custom categories to organize to-dos.
+- 5 default categories to organize your to-dos:
+  - **Inbox** contains all to-dos.
+  - **Today** contains to-dos due today.
+  - **Upcoming** contains to-dos due within 3 days.
+  - **Anytime** contains to-dos without a due date.
+  - **Completed** contains to-dos marked as completed.
+- A mobile-friendly layout.
+- Offline support.
 
 ## Demo Video
 
@@ -24,6 +36,190 @@ This is an application that I made for The Odin Project's [Todo List](https://ww
 
 ### Setup
 
+So far in this code, we learned basic JavaScript and how it can be used to interact with the DOM. In addition, we learned the basics of Webpack and how it can be used to build & compile JavaScript code. Our Webpack configs live in a `webpack.config.js` file with a basic structure of:
 
-### Overall Learnings
+```javascript
+const path = require("path");
 
+module.exports = {
+  entry: "./src/index.js",
+  output: {
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
+  },
+};
+```
+
+What this essentially does is look for an `index.js` file in our `src` folder which all our JavaScript code will live.
+
+### Design
+
+At this stage of my Web Development experience, my design sense is lacking. Luckily, The Odin Project provided some inspiration on how we can style our application and I settled upon the design of the [Things](https://culturedcode.com/things/) task manager app.
+
+<ImageViewer
+  images={[
+    {
+      url: "/projects/doelist/inspiration-1.webp",
+      alt: "What I wanted the navigation sidebar to look like.",
+    },
+    {
+      url: "/projects/doelist/inspiration-2.webp",
+      alt: "What I modeled the screen containing the to-dos of a category to look like.",
+    },
+  ]}
+/>
+
+### Navigation Menu
+
+For this navigation menu, instead of creating a menu for mobile & desktop separately,  I decided on using the same navigation code for both. In addition, I had some sliding animations for when the menu is opened & closed for mobile along with expanding & compressing for desktop. I utilized JavaScript to change between the navigation state of mobile & desktop due to needing it to change the icon for the open & closed state since I was using the Font Awesome CSS icon library and I didn't really know how to change the icon with CSS. I've also used JavaScript to control the navigation menu because I used a checkbox input element as the menu toggler, in which, I need to somehow untoggle it if the screen changes sizes. How I envisioned the navbar working was if the screen changes sizes, the menu collapse regardless of its previous state when the screen size changes from desktop to mobile and vice versa for mobile to desktop.
+
+### "Components" With JavaScript
+
+Since we'll have to display a list of to-dos, we need some way to repeatedly essentially create the same component which we can populate with data to display. For example, we'll look at our code to create a to-do list item. Our form of a "component" is a function that creates the general HTML element and returns it without adding it to the DOM. Adding the component to the DOM will be handled by some other element.
+
+```javascript showLineNumbers
+function createTaskCard(taskObj) {
+  const {
+    taskName,
+    taskDescription,
+    priority,
+    categoryLocation,
+    dueDate,
+    completedDate,
+  } = taskObj;
+  const isCompleted = !!completedDate;
+
+  const taskCard = document.createElement("div");
+  taskCard.classList.add("task-card");
+
+  taskCard.innerHTML = `
+    <div class="task-header">
+      <div class="checkbox-div">
+        <input type="checkbox">
+        <p class="task-title"></p>
+      </div>
+      <section>
+        ${
+          !isCompleted
+            ? `<i class="fas fa-flag icon ${priority}"></i>
+              <i class="far fa-edit icon"></i>`
+            : ""
+        }
+        <i class="far fa-trash-alt icon"></i>
+      </section>
+    </div>
+    <div class="task-shelf">
+        <div class="task-description"></div>
+        <div class="task-stats">
+          <div>
+            <p>
+              Priority: 
+              <span class="unfocus-text">${priority}</span>
+            </p>
+            <p>
+              Category: 
+              <span class="unfocus-text tc-category-field"></span>
+            </p>
+          </div>
+          <div>
+            <p>
+              Due Date: 
+              <span class="unfocus-text"> ${
+                dueDate ? getNiceTime(dueDate) : "n/a"
+              }</span>
+            </p>
+            ${
+              isCompleted
+                ? `<p>
+                      Completed: 
+                      <span class="unfocus-text"> ${
+                        completedDate ? getNiceTime(completedDate) : "n/a"
+                      }</span>
+                    </p>`
+                : ""
+            }
+          </div>
+        </div>
+    </div>
+  `;
+
+  /*
+    Some event listeners...
+  */
+
+  taskCard.querySelector(".task-title").textContent = taskName;
+  taskCard.querySelector(".task-description").textContent = taskDescription;
+  taskCard.querySelector(".tc-category-field").textContent = categoryLocation;
+
+  return taskCard;
+}
+```
+
+Lines 1-3 show the declaration of the component function which accepts an object containing all the information about the to-do item which we deconstruct.
+
+```javascript
+function createTaskCard(taskObj) {
+  const {
+    taskName,
+    taskDescription,
+    priority,
+    categoryLocation,
+    dueDate,
+    completedDate,
+  } = taskObj;
+  const isCompleted = !!completedDate;
+  // ...
+}
+```
+
+Lines 5-6 create the parent element of our to-do item which is going to be a `div` using the `document.createElement()` function. We also apply the base class for the to-do item.
+
+```javascript
+const taskCard = document.createElement("div");
+taskCard.classList.add("task-card");
+```
+
+Lines 8-55 is essentially where the meat of the component making is. We chose to use a template string to create the HTML elements that live inside the to-do list item as the layout is complex. **It's potentially dangerous to use the `innerHTML` property on any element due to injection of malicious code**, however, this application runs on the user's browser and not on a server, which would be dangerous as we don't validate the user's inputs.
+
+> This essentially resembles what we do in React (JSX).
+
+Lines 57-59 would be where I put the event listeners for interactions between the to-do list element and the user such as one for deleting the to-do list item or marking it as completed.
+
+Since we used a template string to populate the elements inside the parent element of our to-do item (the `taskCard` variable), those elements can be accessed off the `taskCard` variable and we can run some JavaScript off them. This is what we did on lines 61-64, where we set the `textContent` of elements within `taskCard`.
+
+```javascript
+taskCard.querySelector(".task-title").textContent = taskName;
+taskCard.querySelector(".task-description").textContent = taskDescription;
+taskCard.querySelector(".tc-category-field").textContent = categoryLocation;
+```
+
+Finally, we return this HTML element, `taskCard` so that it can be used elsewhere.
+
+## Improving the Application
+
+### PWA
+
+Almost a year after finishing this project, I decided to add a new feature as I was learning about PWA at the time. Mainly, I wanted to add offline support as it made sense with an application like this. This application only used localStorage to store the data and it doesn't rely too heavily on external dependencies. To implement these features, I used a series of `workbox` libraries.
+
+### Webpack
+
+Webpack is something that can manage images along with compressing our file and optimizing them for the web. For our application, it's useful to have multiple Webpack configuration files depending on what we're doing. For example, we don't necessarily need to minify our CSS or "uglify" our code during development. For production, however, it may be useful as it may lead to better page loading time. On the other hand, there may be configurations that are shared between production and development. To create Webpack configurations from 2 different files, we use the `webpack-merge` package. How we use `webpack-merge` is simply:
+
+```javascript
+const { merge } = require("webpack-merge");
+
+// Containing a Webpack configuration shared between production & development
+const common = require("./webpack.common");
+
+module.exports = merge(common, {
+  // Webpack configuration specific to this environment
+});
+```
+
+## Overall Learnings
+
+1. Built an application with Webpack along with minify and uglify the code.
+2. Creating an animated navigation menu and controlling it through JavaScript.
+3. Creating "components" using plain JavaScript functions that return an HTML element.
+4. Adding offline support using Workbox.
+5. Improving my Webpack knowledge through having separate configurations.
