@@ -1,0 +1,91 @@
+---
+heroHex: "#9c5252"
+projectName: Next-Instagram
+duration: January 2022 - July 2022
+website: https://cyangram.vercel.app/
+github: https://github.com/cyanChill/NextJS-Instagram
+---
+
+This is an application that I made for The Odin Project's [JavaScript Final Project](https://www.theodinproject.com/lessons/node-path-javascript-javascript-final-project) for their JavaScript course. The overall goal was to recreate a website of our choosing with interesting functionalities.
+
+<a href="#demo-video">Skip to Demo Video</a>
+
+## What's the Goal of this Application?
+
+The goal of this application is to allow users to share their lives to the world in the form of pictures. If you find someone you like, you can follow them to see any post they make on your feed.
+
+## Features
+
+Users must be logged in to interact with the application.
+
+- They can create an account with a username & password.
+
+Once logged in, users can:
+
+- Create posts displaying an image and an optional description.
+- Like & comment on posts.
+- A home feed with posts we follow.
+- A discover feed contains posts of those who we aren't following.
+- "Realtime" messaging between users
+
+## Demo Video
+
+<video src="/projects/next-instagram/demo.mp4" controls muted />
+
+## Building the Application
+
+### Setup
+
+For this application, I decided to try something new and create a full-stack application using Next.js and its API route feature (this is built using Next.js 12 which only has the **Pages Router**, unlike Next.js 13 which has that along with the **App Router**). Its API routes are entirely different compared to what would be found in a traditional back end using Express due to it being **serverless**. By default, our API routes are only accessible to the site that it's built with, so we don't need to worry about external domains using our API.
+
+In addition to using Next.js to create a big project for the first time, I decided to also use MongoDB to store the textual data in my application along with Firebase to store the images.
+
+### Challenge 1: Setting Up the Database
+
+This is one of the earlier challenges faced since there's no clear "initializer" file for the "back end" in this application as we're using a serverless environment. To work around this, we can create a cached global instance of the database. So, when we access it in any of the API routes for the first time, it'll see if there's a cached instance of the database connection. If it doesn't exist, it'll create a database connection, otherwise, it'll use the cached instance.
+
+> Reference to this can be found in one of Next.js' [examples on GitHub](https://github.com/vercel/next.js/blob/canary/examples/with-mongodb-mongoose/lib/dbConnect.js)
+
+> An alternative approach is to use Next.js' middleware, but it was a bit confusing at the time, so I went with this approach.
+
+### Challenge 2: Authentication
+
+One of the hardest parts of any application is how we decide on handling authentication and if we're trying a method, whether it's something new or familiar. The "signup" route follows the typical approach that I'm familiar with. The "new" portion is the "login" route using **Next-Auth** (now **Auth.js**).
+
+For handling login with Next-Auth, we need to create a special API route which is found in `/api/auth/[...nextauth].js`. I then followed along with Next-Auth docs on [credential authentication](https://next-auth.js.org/providers/credentials) to handle the authorization logic.
+
+The problem was that I wanted to return extra data after logging in (by default, I believe we only get the username, id, and email of the person). To return more data, we have to update the callback functions which Next-Auth allows us to modify and update the `user` object with what we want to return from the `providers` we created (in our case, is Credentials).
+
+Later in the project, I implemented the ability for the user to update their profile information, however, the problem is that it doesn't update the value in the `user` object returned by Next-Auth unless we refresh, which is a bad user experience. To get around this, I updated one of the callbacks to update the object once it changes.
+
+### Routing
+
+One of the cool things about Next.js is that it has built-in routing. This means we don't need to install a third-party library such as `react-router` to have routing in React. How routing works in Next.js 12 with the **Pages Router** is that it works like a file system.
+
+- Files in the `api` folder will act as API routes.
+- Files nested in folders act as nested routes (ie: "/pages/auth/login" acts as the "/auth/login" route in our browser).
+- An `index.js` file acts as the route of the specified folder name (ie: "/pages/auth/index.js" acts as the "/auth" route in our browser). An `index.js` file in the root of our `pages` folder will be the home page (or the "/" route).
+- We can have dynamic routes by having a file or folder name being surrounded with brackets (ie: "/pages/blog/[id].js" will allow us to catch "/blog/1", "/blog/2", etc.).
+- There's a special kind of way to do dynamic routes as a "catch all route" with calling it something like `[...slug].js`. If we have "/pages/blog/[...slug].js", we can catch something like "/blog/august/10/2022".
+
+Next.js has a built-in `useRouter` hook that can be used to navigate between pages. Alternatively, we can use the `Link` component to link between pages as well without having the need to hard refresh the page (which happens when we use the anchor element).
+
+### Handling Image Upload and Storage with Firebase
+
+This overall was a similar process to what was done on other projects.
+
+- During my implementation, I started off by handling image uploads on the front end with Firebase' client library, however, I felt it was a bit unsecure and should occur in the back end.
+- A month after I "finished" this application, I added some logic to convert images uploaded to use the `.webp` format to save on space in Firebase.
+
+### Prefetching Data
+
+One of the interesting features of Next.js is the ability to prefetch data on the client in a "sever" environment using `getServerSideProps`. This is a special function in which we can write server code in a client file and know that it won't "poison" our client code. This gives us the ability to fetch data on the server and pass it into the props of our page components without having a visible loading state.
+
+> One thing that might be noticeable is that if the task takes too long, the user may experience a wait when navigating to the page with the `getServerSideProps`.
+
+### Overall Learnings
+
+1. Using Next.js to create a full stack application.
+2. Setting up a database in Next.js to be used in a serverless environment.
+3. Using Next-Auth to handle authentication.
+4. Learning the benefits of Next.js such as built-in routing and data prefetching.
