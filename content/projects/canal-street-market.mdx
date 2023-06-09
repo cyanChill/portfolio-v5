@@ -6,13 +6,18 @@ website: https://cyanchill-canalstreetmarket.netlify.app/
 github: https://github.com/cyanChill/canal-street-market-clone
 ---
 
+<MdxNotice>
+  You can view the actual [Canal Street Market site
+  here](https://canalstreet.market/).
+</MdxNotice>
+
 This is a site I made for Frontend Practice's [Canal Street Market](https://www.frontendpractice.com/projects/canal-street-market) project. The goal is to recreate this unique layout, its hover animations, typography choices, and more.
 
 <a href="#demo-video">Skip to Demo Video</a>
 
 ## What's the Goal of this Site?
 
-The main goal of creating this site is to improve my front end skills by trying to implement interesting animations and layout. From the site that this project is based upon, I found the overall navigation to be pretty cool an ingenious.
+The main goal of creating this site is to improve my front-end skills by trying to implement interesting animations and layout. From the site that this project is based upon, I found the overall navigation to be pretty cool and ingenious.
 
 ## Demo Video
 
@@ -22,6 +27,52 @@ The main goal of creating this site is to improve my front end skills by trying 
 
 ### Setup
 
+For recreating this website, I used React to do so as I noticed multiple components that seemed to be reused throughout the different pages the site has. For instance, the contact form along with the navigation "tabs" are reused throughout the 4 main pages.
 
-### Overall Learnings
+<ImageViewer
+  images={[
+    {
+      url: "/projects/canal-street-market/reusable-component-1.webp",
+      alt: 'The contact form found on the "About" page.',
+    },
+    {
+      url: "/projects/canal-street-market/reusable-component-2.webp",
+      alt: 'The same contact form found on the "Food" page.',
+    },
+    {
+      url: "/projects/canal-street-market/reusable-component-3.webp",
+      alt: 'The desktop "tabs" for navigating between the pages have a reusable style.',
+    },
+    {
+      url: "/projects/canal-street-market/reusable-component-4.webp",
+      alt: 'The mobile "tabs" follow a similar reusable pattern.',
+    },
+  ]}
+/>
 
+I utilized a file containing an array containing the content necessary for each of the navigation tabs including the displayed route name and information used for timing the animations. In addition, I also decided to use TypeScript in this application to get more experience with it.
+
+### Challenge 1: Navigation Animations
+
+One of the cool animations is when we click on a navigation tab, the content of the current page fades out, followed by the tab we clicked expanding, with its content then appearing. It'll probably be easier if we used an animation library, but I wanted to code this from scratch. When playing around with the animations, I noticed that once we click on a navigation tab, the animation has to finish playing out before we can select a new tab and trigger its animation. However, I want to be able to switch tabs when a tab is mid-way in its animation before it's completion (when it's near "completion", I want to prevent the user from being able to change tabs - any time before this phase, the user is allowed to switch tabs).
+
+To this, I decided to create a global context which keeps track of the current tab & URL route, whether a navigation animation was in progress, and provide a function (`nextRoute()`) to trigger the animation and do the navigating instead of relying on an anchor element. What this `nextRoute()` function does is set a timeout for 500ms to allow for the content fade-out animation to occur. I added a clause that allows the timeout to be reset if we want to navigate to a different page prior to the "completion" period mentioned. After the 500ms, the actual page navigation will occur through using React Router's `useNavigate()` hook and then, we enter the "completion" period. Since we used the `useNavigate()` hook to transition to a new page, we can use the `useLocation()` hook to allow us to lock the `nextRoute()` function and prevent us from navigation to a new page until the "completion" period is over. Essentially, we have a `useEffect()` listen to when the location of the site changes, which then sets a state, `canSwitch` to `false`, which prevents the `nextRoute()` function from doing it's logic. This useEffect contains a timeout to eventually set `canSwitch` and `inProgress` to its opposite values (which allows the `nextRoute()` function to be once again used).
+
+Our navigation tab components will then take that data from the context and apply the class which triggers the animation and gives what we see on my clone.
+
+### Resize Context
+
+From reviewing my code in the present, this seems entirely unnecessary. This is only used in `App.tsx` file and is only used to toggle some margin on a container which can be replaced with just a `@media` query. If I rethink why I could have created this, I believed I used something similar in my **Doelist** project for the navigation bar, which would compress the bar from its expanded form which showed the icon and icon label.
+
+### "FadeIn" Animation Wrapper Component
+
+This was a component I created to add a fade-in animation, which changed the opacity of an element from 0 to 1. In my current perspective, this seems kind of useless, but I can see why it may be helpful as we may want to add an optional delay to an animation, which is annoying to hardcode. This component gives accepts props to manipulate the delay and duration of the fade-in animation, which gives an alternative interface of doing this animation styling.
+
+### Conclusion
+
+The overall difficult part with this website is figuring out how the navigation animation is done and how we can clone it to the best of our abilities.
+
+## Overall Learnings
+
+1. Creating a complex navigation animation.
+2. Gaining more experience with TypeScript.

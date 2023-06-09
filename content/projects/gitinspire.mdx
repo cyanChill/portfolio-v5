@@ -231,6 +231,8 @@ Continuous Integration & Deployment (CI/CD) is a very new concept for me and som
 
 Even though GitHub provides documentation for setting up CI, it's difficult to see whether it works or not until we commit the file and see it in action. This results in several (useless) commits in our commit history. Setting up this pipeline, however, is beneficial as it makes sure any commits made to our repository pass our tests and will automatically deploy the changes if they succeed.
 
+This affected what I chose for my hosting providers. Initially, I wanted to host my back end on PythonAnywhere, however, there was no clear way on how it can be integrated with GitHub Actions to do CI/CD. Then came Render, which provided a way, which was [**deploy hooks**](https://render.com/docs/deploy-hooks). Essentially, when we send a request to the URL provided by the deploy hook, it'll deploy our application from our GitHub code. This concept of deploy hooks was also available on Vercel, which I decided to use to host the client. By default, Vercel will auto-deploy commits to the repository. However, with deploy hooks, we can configure it such that the auto-deploy behavior doesn't work, and it only deploys through the deploy hook.
+
 ### Challenge 7: "Refresh" feature
 
 Since most of our data in our database relies on external data from the GitHub API, things are bound to become outdated or broken. To combat this, I decided to add a "refresh" feature which would be available once a day for every repository and user profile. The general workflow for accomplishing this is:
