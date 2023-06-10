@@ -10,7 +10,7 @@ This is an application that I made for The Odin Project's [Odin-Book](https://ww
 
 <a href="#demo-video">Skip to Demo Video</a>
 
-## What's the Goal of this Application?
+## What's The Goal Of This Application?
 
 The goal of this application is to provide an alternative way for users to connect with their friends and take a glance at their lives through the posts they create. With this application, privacy is a focal point, with users being able to see what goes on in the application through looking at the source code that's publicly available.
 
@@ -34,7 +34,7 @@ Once logged in, users can:
 
 <video src="/projects/odinworks/demo.mp4" controls muted />
 
-## Building the Application
+## Building The Application
 
 ### Setup
 
@@ -48,13 +48,13 @@ This is pretty much the first time I used this library, and the documentation wa
 
 ### Challenge 2: Content Distribution
 
-#### Limiting Our Content to Friends
+#### Limiting Our Content To Friends
 
 One of the main focal points of this application is that the content we post is only visible to our friends. This means I need to figure out how we can restrict routes in the back end such that only the people with access can read it (ie: owners or friends).
 
 The method I decided on to solve this problem is to create middleware that checks if the current user is a friend, or the owner of the content being accessed. This is applied to the routes which end in `/:userId`, which specifies content for that user.
 
-#### Displaying a Feed of Accessible Content
+#### Displaying A Feed Of Accessible Content
 
 The next problem I need to figure out is how we would create a feed such that it only contains content from either us or our friends. This ended up being solved in a simple way in fact. Due to these routes typically being limited to authenticated users and since we require knowing the user who's accessing these routes, we save the user object in the requests made to our back-end routes. On these user objects, we have a property which is an array containing the ids of our friends. So, to get a feed of content we have access to, we can query our database to look for content from any user in that array plus our user id.
 

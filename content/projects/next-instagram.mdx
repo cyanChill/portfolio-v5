@@ -10,7 +10,7 @@ This is an application that I made for The Odin Project's [JavaScript Final Proj
 
 <a href="#demo-video">Skip to Demo Video</a>
 
-## What's the Goal of this Application?
+## What's The Goal Of This Application?
 
 The goal of this application is to allow users to share their lives to the world in the form of pictures. If you find someone you like, you can follow them to see any post they make on your feed.
 
@@ -32,7 +32,7 @@ Once logged in, users can:
 
 <video src="/projects/next-instagram/demo.mp4" controls muted />
 
-## Building the Application
+## Building The Application
 
 ### Setup
 
@@ -40,7 +40,7 @@ For this application, I decided to try something new and create a full-stack app
 
 In addition to using Next.js to create a big project for the first time, I decided to also use MongoDB to store the textual data in my application along with Firebase to store the images.
 
-### Challenge 1: Setting Up the Database
+### Challenge 1: Setting Up The Database
 
 This is one of the earlier challenges faced since there's no clear "initializer" file for the "back end" in this application as we're using a serverless environment. To work around this, we can create a cached global instance of the database. So, when we access it in any of the API routes for the first time, it'll see if there's a cached instance of the database connection. If it doesn't exist, it'll create a database connection, otherwise, it'll use the cached instance.
 
@@ -70,7 +70,7 @@ One of the cool things about Next.js is that it has built-in routing. This means
 
 Next.js has a built-in `useRouter` hook that can be used to navigate between pages. Alternatively, we can use the `Link` component to link between pages as well without having the need to hard refresh the page (which happens when we use the anchor element).
 
-### Handling Image Upload and Storage with Firebase
+### Handling Image Upload And Storage With Firebase
 
 This overall was a similar process to what was done on other projects.
 

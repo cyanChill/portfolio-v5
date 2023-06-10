@@ -132,11 +132,11 @@ For creating a way of "remembering" our user, I utilized the `Flask-JWT-Extended
 
 After getting this all sorted out, I created a simple context on the front end such that we can access the user object once authenticated on the front end on any route and allow us to create functions to help create authenticated routes on the client.
 
-### Challenge 2: Navigation UI (General UI Design in General)
+### Challenge 2: Navigation UI (UI Design In General)
 
 After getting the authentication related tasks done, I started to work on the navigation bar on the front end modeled after what I had in my design. I didn't really like what I had in my initial design, and since I'm not really a designer, I looked at some ideas online. Since I was using TailwindCSS as the CSS framework for my project, I stumbled upon their paid component library [TailwindUI](https://tailwindui.com/components). At the time of working on my project, they had some free components in which you could look at the code, however the "paid" components only allowed us to look at a png image. However, at the time of writing, they now have an interactive demonstration for all their components which allows us to see the design at different breakpoints.
 
-### Challenge 3: GitHub "Advanced search" implementation
+### Challenge 3: GitHub "Advanced search" Implementation
 
 The actual implementation of this idea was straight forwards. All we had to do was accept some inputs and construct the [search query string from GitHub's REST API documentation](https://docs.github.com/en/rest/search?apiVersion=2022-11-28#search-repositories). The main problem was the [rate limiting](https://docs.github.com/en/rest/search?apiVersion=2022-11-28#rate-limit) GitHub does when utilizing their REST API for search. They did provide, in their documentation, on [how we could increase the unauthenticated rate limit using our OAuth app secret](https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#increasing-the-unauthenticated-rate-limit-for-oauth-apps), however, they utilized `CURL` in their example, which is something I was a bit unfamiliar with.
 
@@ -233,7 +233,7 @@ Even though GitHub provides documentation for setting up CI, it's difficult to s
 
 This affected what I chose for my hosting providers. Initially, I wanted to host my back end on PythonAnywhere, however, there was no clear way on how it can be integrated with GitHub Actions to do CI/CD. Then came Render, which provided a way, which was [**deploy hooks**](https://render.com/docs/deploy-hooks). Essentially, when we send a request to the URL provided by the deploy hook, it'll deploy our application from our GitHub code. This concept of deploy hooks was also available on Vercel, which I decided to use to host the client. By default, Vercel will auto-deploy commits to the repository. However, with deploy hooks, we can configure it such that the auto-deploy behavior doesn't work, and it only deploys through the deploy hook.
 
-### Challenge 7: "Refresh" feature
+### Challenge 7: "Refresh" Feature
 
 Since most of our data in our database relies on external data from the GitHub API, things are bound to become outdated or broken. To combat this, I decided to add a "refresh" feature which would be available once a day for every repository and user profile. The general workflow for accomplishing this is:
 

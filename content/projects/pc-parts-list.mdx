@@ -15,7 +15,7 @@ This is an application that I made for The Odin Project's [Inventory Application
 
 <a href="#demo-video">Skip to Demo Video</a>
 
-## What's the Goal of this Application?
+## What's The Goal Of This Application?
 
 The main goal of this application is to provide a way for users to plan out their PC builds by allowing them to create a list to act as a guide. Users can look through the vast library of PC components to help create their build. If the component doesn't exist, the user can simply add it to our database. Our application also displays PC lists made by other users such that you can get inspired from them. In addition, next to each PC component in the build list is a link to a search on Amazon where the user can try and find the PC component to purchase.
 
@@ -38,7 +38,7 @@ Admin users will have the ability to:
 
 <video src="/projects/pc-parts-list/demo.mp4" controls muted />
 
-## Building the Application
+## Building The Application
 
 ### Setup
 
@@ -54,7 +54,7 @@ I then turned to the alternative of utilizing cookies, which is something suppor
 
 Something that I learned more about during the process of creating this application is the capabilities of Mongoose, the interface used to interact with MongoDB. I knew from the past of advantages such as being able to call directly on a schema object to do our querying along with defining the schema in our files. Something I learned was the ability to create virtual properties which don't exist on the database but are created on our server. In addition, I learned that when we define relations between objects in different schemas through their "id", we can replace/populate that "id" value with the actual schema object it's associated with. This helps reduce the overall calls to the database by doing what would be done in 2 different database calls into 1.
 
-### Challenge 2: Allowing Users to Update or Delete a PC Build List They Created
+### Challenge 2: Allowing Users To Update Or Delete A PC Build List They Created
 
 As part of the CRUD operations, we want to give users the ability to manipulate their own PC build lists. This means we need to figure out a way to make sure that a build can only be updated or deleted by its creator. The solution I landed upon is to add a password field when the user creates a build. This is something the user will need to remember to update or delete their builds. When someone views an individual build, there'll be buttons to update or delete, both requiring a password to go further.
 
