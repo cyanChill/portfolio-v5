@@ -18,7 +18,10 @@ const components = {
   ),
   // We default the page gutters to be 1.5rem
   pre: ({ className, ...props }: ComponentProps) => (
-    <pre className="scrollbar overflow-x-auto border border-slate-800 rounded-lg" {...props} />
+    <pre
+      className="scrollbar overflow-x-auto rounded-lg border border-slate-800 px-0"
+      {...props}
+    />
   ),
   Image,
   ImageViewer,
@@ -33,5 +36,6 @@ type MdxProps = {
 export default function Mdx({ code }: MdxProps) {
   const Component = useMDXComponent(code);
 
+  // @ts-ignore
   return <Component components={components} />;
 }
