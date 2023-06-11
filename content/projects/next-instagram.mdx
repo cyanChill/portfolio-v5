@@ -44,7 +44,7 @@ In addition to using Next.js to create a big project for the first time, I decid
 
 This is one of the earlier challenges faced since there's no clear "initializer" file for the "back end" in this application as we're using a serverless environment. To work around this, we can create a cached global instance of the database. So, when we access it in any of the API routes for the first time, it'll see if there's a cached instance of the database connection. If it doesn't exist, it'll create a database connection, otherwise, it'll use the cached instance.
 
-> Reference to this can be found in one of Next.js' [examples on GitHub](https://github.com/vercel/next.js/blob/canary/examples/with-mongodb-mongoose/lib/dbConnect.js)
+> Reference to this can be found in one of Next.js' [examples on GitHub](https://github.com/vercel/next.js/blob/canary/examples/with-mongodb-mongoose/lib/dbConnect.js). I have this in the `lib/dbConnect.js` file.
 
 > An alternative approach is to use Next.js' middleware, but it was a bit confusing at the time, so I went with this approach.
 
@@ -57,6 +57,49 @@ For handling login with Next-Auth, we need to create a special API route which i
 The problem was that I wanted to return extra data after logging in (by default, I believe we only get the username, id, and email of the person). To return more data, we have to update the callback functions which Next-Auth allows us to modify and update the `user` object with what we want to return from the `providers` we created (in our case, is Credentials).
 
 Later in the project, I implemented the ability for the user to update their profile information, however, the problem is that it doesn't update the value in the `user` object returned by Next-Auth unless we refresh, which is a bad user experience. To get around this, I updated one of the callbacks to update the object once it changes.
+
+```javascript {17-34}
+/* "pages/api/auth/[...nextauth].js" */
+export default NextAuth({
+  session: {
+    /* ... */
+  },
+  providers: [
+    /* ... */
+  ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      if (user) token.user = user;
+      return token;
+    },
+    session: async ({ session, token }) => {
+      session.user = token.user;
+
+      /*
+        If user is logged in, refresh session [in case we change] the values
+        of name or username in our settings page
+      */
+      if (token?.user?.dbId) {
+        await dbConnect();
+        const user = await User.findOne({ _id: token.user.dbId });
+        session.user = {
+          ...session.user,
+          name: user.name,
+          username: user.username,
+        };
+        token.user = {
+          ...token.user,
+          name: user.name,
+          username: user.username,
+        };
+      }
+
+      return session;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+});
+```
 
 ### Routing
 
@@ -77,11 +120,103 @@ This overall was a similar process to what was done on other projects.
 - During my implementation, I started off by handling image uploads on the front end with Firebase' client library, however, I felt it was a bit unsecure and should occur in the back end.
 - A month after I "finished" this application, I added some logic to convert images uploaded to use the `.webp` format to save on space in Firebase.
 
+```javascript showLineNumbers {3,15,22}
+/* "lib/firebaseAdminHelper.js" */
+import { v4 as uuidv4 } from "uuid";
+import sharp from "sharp";
+
+import { bucket } from "../firebaseAdmin.config";
+
+/* Used to upload an image and return the download url w/ identifier */
+export const uploadImage = async (uploaderId, imageData) => {
+  if (!uploaderId || !imageData) return;
+  const referenceId = uuidv4();
+  const downloadToken = uuidv4();
+  const destination = `${uploaderId}/${referenceId}`;
+  const { filepath } = imageData;
+
+  const convertedFileBuffer = await sharp(filepath).webp().toBuffer();
+
+  // Uploading a file buffer to Firebase has a different process
+  const newFile = bucket.file(destination);
+  await newFile.save(convertedFileBuffer); // Upload image
+  // Update metadata for obtainable download URL
+  await newFile.setMetadata({
+    contentType: "image/webp",
+    metadata: { firebaseStorageDownloadTokens: downloadToken },
+  });
+
+  const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${
+    process.env.FIREBASE_ADMIN_STORAGE_BUCKET
+  }/o/${encodeURIComponent(destination)}?alt=media&token=${downloadToken}`;
+
+  return { identifier: referenceId, url: fileUrl };
+};
+
+/* Used to delete an image in firebase */
+export const deleteImage = async (uploaderId, imageId) => {
+  if (!uploaderId || !imageId) return;
+  try {
+    await bucket.file(`${uploaderId}/${imageId}`).delete();
+  } catch (err) {
+    console.log(err);
+  }
+};
+```
+
 ### Prefetching Data
 
 One of the interesting features of Next.js is the ability to prefetch data on the client in a "sever" environment using `getServerSideProps`. This is a special function in which we can write server code in a client file and know that it won't "poison" our client code. This gives us the ability to fetch data on the server and pass it into the props of our page components without having a visible loading state.
 
 > One thing that might be noticeable is that if the task takes too long, the user may experience a wait when navigating to the page with the `getServerSideProps`.
+
+One example of this can be seen in the route displaying a specific post in which we see we get the props returned from `getServerSideProps` in the page component:
+
+```javascript {8,14-43}
+/* "pages/p/[postId].js" */
+import Head from "next/head";
+import { getSession } from "next-auth/react";
+
+import Error from "../../components/pageLayouts/errorPage/error";
+import Post from "../../components/pageLayouts/postPage/post";
+
+const UserPostPage = ({ errorCode, postData, ownPost, hasLiked, viewerId }) => {
+  // Code for handling errors & displaying specific post page
+};
+
+export default UserPostPage;
+
+/* Server-Side Imports */
+import { getPostInfo } from "../../lib/backendHelpers";
+
+export const getServerSideProps = async (context) => {
+  const session = await getSession({ req: context.req });
+  if (!session) {
+    return { redirect: { destination: "/accounts/login" } };
+  }
+
+  const { postId } = context.params;
+
+  /* Get Data From Server On User */
+  try {
+    const data = await getPostInfo(postId);
+
+    return {
+      props: {
+        postData: data.post,
+        ownPost: session.user.dbId === data.post.posterId,
+        hasLiked: !!data.post.likes.find(
+          (likeInfo) => likeInfo.likerId === session.user.dbId
+        ),
+        viewerId: session.user.dbId,
+      },
+    };
+  } catch (err) {
+    console.log("[Error]", err.message);
+    return { props: { errorCode: 404 } };
+  }
+};
+```
 
 ## Overall Learnings
 

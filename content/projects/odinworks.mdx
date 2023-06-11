@@ -46,6 +46,38 @@ For this application, compared to PC Parts List, I decided to create an Express 
 
 This is pretty much the first time I used this library, and the documentation was helpful for the most part. At the time I was working on this project, there was no documentation on how we would authenticate with Facebook, so that took some figuring out to do. In addition, authenticating with Facebook was difficult due to trying to figure out how to register our application with Facebook as Facebook's developer interface is a bit cluttered.
 
+#### Identifying the Current User
+
+With authentication, we also want to identify the current user. In order to do this, I created a middleware which checks to see if the user currently accessing our server is authenticated. If they are, it means there exists an authorization token in their headers, which we can extract and read. Given the token is valid, we can then search for that user in our database and return their user object.
+
+```javascript
+/* A portion from "backend/utils/jwt.js" */
+
+// Middleware to read JWT token data (we know the "authorization" header
+// exists and is valid from the passport check)
+exports.readToken = [
+  passport.authenticate("jwt", { session: false }),
+
+  async (req, res, next) => {
+    // Get auth bearer token value
+    const bearerToken = req.headers["authorization"].split(" ")[1];
+    try {
+      const authData = jwt.verify(bearerToken, process.env.SECRET_KEY);
+      if (!authData)
+        return res.status(403).json({ message: "Unknown payload." });
+      // Validate Id in Token:
+      const user = await User.findById(authData.id);
+      if (!user) throw new Error("Invalid token."); // Goto catch block
+      req.userId = authData.id;
+      return next();
+    } catch (err) {
+      debug(err);
+      return res.status(403).json({ message: "Invalid token." });
+    }
+  },
+];
+```
+
 ### Challenge 2: Content Distribution
 
 #### Limiting Our Content To Friends
@@ -53,6 +85,35 @@ This is pretty much the first time I used this library, and the documentation wa
 One of the main focal points of this application is that the content we post is only visible to our friends. This means I need to figure out how we can restrict routes in the back end such that only the people with access can read it (ie: owners or friends).
 
 The method I decided on to solve this problem is to create middleware that checks if the current user is a friend, or the owner of the content being accessed. This is applied to the routes which end in `/:userId`, which specifies content for that user.
+
+```javascript
+/* A portion from "backend/utils/routeMiddleware.js" */
+
+// Checks if :userId param is for a valid user & sets req.currentUser
+exports.validUserId = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).json({ message: "User does not exist." });
+    req.currentUser = user;
+    return next();
+  } catch (err) {
+    debug(err);
+    return res.status(500).json({
+      message: "Something went wrong while verifying the userId.",
+    });
+  }
+};
+
+// Gets all relations with :userId
+exports.getRelations = async (req, res, next) => {
+  req.isOwner = req.userId === req.params.userId;
+  req.isFriend = req.currentUser.friends.includes(req.userId);
+  req.hasSentRequest = req.currentUser.friendRequests.includes(req.userId);
+  req.isFriendOrOwner = req.isFriend || req.isOwner;
+
+  return next();
+};
+```
 
 #### Displaying A Feed Of Accessible Content
 
@@ -74,7 +135,7 @@ We first want to create a file path for where the file will be located.
 const destination = `odinworks/${uploaderId}/${imgRefId}.webp`;
 ```
 
-We then want to create something called a "download token", which will be used to help create a permanent link to that file. In our case, we'll use a uuid string for its value.
+We then want to create something called a "download token", which will be used to help create a permanent link to that file. In our case, we'll use a UUID string for its value.
 
 ```javascript
 const downloadToken = uuidv4();
@@ -129,6 +190,31 @@ Then, we use the `DEBUG` environment variable (located in the `.env` file) and g
 ### Rate Limiting
 
 For logins and signups, I added a rate limiter to limit 5 requests every 15 minutes to the login route & 10 requests per hour for the signup route. This will probably never be encountered by the user unless they try brute-forcing into an account that they don't own.
+
+```javascript
+/* A portion from "backend/routes/auth.js" */
+
+const rateLimit = require("express-rate-limit");
+
+const limiterLogin = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 5 requests per 'window'
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: JSON.stringify({
+    errors: [{ msg: "You can login up to 5 times per 15 minutes." }],
+  }),
+});
+
+/* Apply this rate limiter to the "regular" login routes below */
+router.use(limiterLogin);
+
+/* Handle non-Facebook logins */
+router.post("/login", authController.normalLogin);
+
+/* Login as Demo Account */
+router.get("/login/demo", authController.demoLogin);
+```
 
 ## Overall Learnings
 

@@ -50,6 +50,80 @@ The first challenge that I faced was figuring out how I would "remember" a build
 
 I then turned to the alternative of utilizing cookies, which is something supported natively with Express and like with local storage, can be used to store data.
 
+```javascript
+/* A portion from "helpers/productHelper.js" */
+
+/* Adds a product to brower cookies for current build list */
+exports.addProdToList = async (res, prodId, ctgyId, listType) => {
+  if (!res) throw new Error("Did not provide Response object.");
+  if (!prodId) throw new Error("Did not provide Product Id.");
+  if (!ctgyId) throw new Error("Did not provide Category Id.");
+  if (!listType) throw new Error("Did not provide list type/name.");
+
+  // Validate the category & product ids are valid
+  const [ctgy, prod] = await Promise.all([
+    Category.findById(ctgyId),
+    Product.findById(prodId),
+  ]);
+  if (!ctgy || !prod) throw new Error("Category or Product Id is invalid");
+
+  res.cookie(`${ctgyId}-${listType}`, prodId, {
+    maxAge: 259200000, // Saves for 3 days (in milliseconds)
+    httpOnly: true,
+  });
+};
+```
+
+In addition, I created a helper function to compile these cookies to create a build list:
+
+```javascript
+/* A portion from "helpers/buildsHelper.js" */
+
+/* Fetch the build we have stored in cookies */
+exports.getBuildInfo = async (req, listType) => {
+  if (!req) throw new Error("Did not provide Request object.");
+  if (!listType) throw new Error("Did not provide list type/name.");
+  // Get Category Names
+  const categories = await Category.find({}).sort({ name: 1 });
+  const categoryIds = categories.map((cat) => `${cat._id}-${listType}`);
+  // Get the ids of the products we've saved in the cookies
+  const browserCookies = req.cookies ? req.cookies : {};
+  const prevItems = [];
+  for (let keyId in browserCookies) {
+    if (categoryIds.includes(keyId)) prevItems.push(browserCookies[keyId]);
+  }
+  // Wait until all promises have finished (regardless of resolve or reject)
+  const prodsInfo = await Promise.allSettled(
+    prevItems.map((prodId) =>
+      Product.findById(
+        prodId,
+        "category name short_name price image_url"
+      ).populate("category")
+    )
+  );
+  // Keep the products w/ successful promise & returned a value (handles
+  // error case for we add a nonexistent product and prevents MongoDB
+  // invalid ObjectID Ref error)
+  const validResults = prodsInfo
+    .filter((result) => result.status === "fulfilled" && !!result.value)
+    .map((prod) => prod.value);
+  // Get final return object by mapping over each product & extracting necessary info
+  let selectedProducts = {};
+  validResults.forEach((prod) => {
+    selectedProducts[prod.category.name] = {
+      _id: prod._id,
+      short_name: prod.short_name,
+      price: prod.price,
+      image_url: prod.image_url,
+      buy_link: prod.buy_link,
+      url_route: prod.url_route,
+    };
+  });
+
+  return { ctgies: categories, selProds: selectedProducts };
+};
+```
+
 ### Mongoose
 
 Something that I learned more about during the process of creating this application is the capabilities of Mongoose, the interface used to interact with MongoDB. I knew from the past of advantages such as being able to call directly on a schema object to do our querying along with defining the schema in our files. Something I learned was the ability to create virtual properties which don't exist on the database but are created on our server. In addition, I learned that when we define relations between objects in different schemas through their "id", we can replace/populate that "id" value with the actual schema object it's associated with. This helps reduce the overall calls to the database by doing what would be done in 2 different database calls into 1.

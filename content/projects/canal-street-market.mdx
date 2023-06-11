@@ -56,7 +56,80 @@ I utilized a file containing an array containing the content necessary for each 
 
 One of the cool animations is when we click on a navigation tab, the content of the current page fades out, followed by the tab we clicked expanding, with its content then appearing. It'll probably be easier if we used an animation library, but I wanted to code this from scratch. When playing around with the animations, I noticed that once we click on a navigation tab, the animation has to finish playing out before we can select a new tab and trigger its animation. However, I want to be able to switch tabs when a tab is mid-way in its animation before it's completion (when it's near "completion", I want to prevent the user from being able to change tabs - any time before this phase, the user is allowed to switch tabs).
 
-To this, I decided to create a global context which keeps track of the current tab & URL route, whether a navigation animation was in progress, and provide a function (`nextRoute()`) to trigger the animation and do the navigating instead of relying on an anchor element. What this `nextRoute()` function does is set a timeout for 500ms to allow for the content fade-out animation to occur. I added a clause that allows the timeout to be reset if we want to navigate to a different page prior to the "completion" period mentioned. After the 500ms, the actual page navigation will occur through using React Router's `useNavigate()` hook and then, we enter the "completion" period. Since we used the `useNavigate()` hook to transition to a new page, we can use the `useLocation()` hook to allow us to lock the `nextRoute()` function and prevent us from navigation to a new page until the "completion" period is over. Essentially, we have a `useEffect()` listen to when the location of the site changes, which then sets a state, `canSwitch` to `false`, which prevents the `nextRoute()` function from doing it's logic. This useEffect contains a timeout to eventually set `canSwitch` and `inProgress` to its opposite values (which allows the `nextRoute()` function to be once again used).
+To this, I decided to create a global context which keeps track of the current tab & URL route, whether a navigation animation was in progress, and provide a function (`nextRoute()`) to trigger the animation and do the navigating instead of relying on an anchor element.
+
+```javascript showLineNumbers {28-42,44-54}
+/* "src/context/TransitionContext.tsx" */
+import { createContext, useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+
+import { ProviderInterface } from "./contextTypes";
+import { TimerType } from "../util/types";
+import { SiteTabs } from "../data";
+
+const TransitionContext = createContext({
+  inProgress: false,
+  currTabIdx: 0,
+  currRoute: "",
+  nextRoute: (routeIdx: number) => {},
+});
+
+const TransitionProvider = ({ children }: ProviderInterface) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  let timerRef = useRef<TimerType>();
+  const [inProgress, setInProgress] = useState(true);
+  const [currTabIdx, setCurrTabIdx] = useState(
+    SiteTabs.findIndex((tab) => `/${tab.route}` === location.pathname)
+  );
+  const [currRoute, setCurrRoute] = useState(location.pathname ?? "/");
+  const [canSwitch, setCanSwitch] = useState(false);
+
+  const nextRoute = (routeIdx: number) => {
+    if (!canSwitch) return;
+
+    setCurrRoute(`/${SiteTabs[routeIdx].route}`);
+    setInProgress(true);
+
+    clearTimeout(timerRef.current); // Debounce timer
+    timerRef.current = setTimeout(() => {
+      navigate(SiteTabs[routeIdx].route);
+      // Make sure we're at the top of the page when we switch pages
+      window.scrollTo(0, 0);
+      setCurrTabIdx(routeIdx);
+      document.body.style.backgroundColor = SiteTabs[routeIdx].color;
+    }, 500);
+  };
+
+  useEffect(() => {
+    setCanSwitch(false);
+    const timeout = setTimeout(() => {
+      setInProgress(false);
+      setCanSwitch(true);
+    }, 250);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [location]);
+
+  return (
+    <TransitionContext.Provider
+      value={{ inProgress, currTabIdx, currRoute, nextRoute }}
+    >
+      {children}
+    </TransitionContext.Provider>
+  );
+};
+
+export default TransitionContext;
+export { TransitionProvider };
+```
+
+What this `nextRoute()` function does is set a timeout for 500ms to allow for the content fade-out animation to occur. I added a clause that allows the timeout to be reset if we want to navigate to a different page prior to the "completion" period mentioned. After the 500ms, the actual page navigation will occur through using React Router's `useNavigate()` hook and then, we enter the "completion" period.
+
+Since we used the `useNavigate()` hook to transition to a new page, we can use the `useLocation()` hook to allow us to lock the `nextRoute()` function and prevent us from navigation to a new page until the "completion" period is over. Essentially, we have a `useEffect()` listen to when the location of the site changes, which then sets a state, `canSwitch` to `false`, which prevents the `nextRoute()` function from doing it's logic. This useEffect contains a timeout to eventually set `canSwitch` and `inProgress` to its opposite values (which allows the `nextRoute()` function to be once again used).
 
 Our navigation tab components will then take that data from the context and apply the class which triggers the animation and gives what we see on my clone.
 
