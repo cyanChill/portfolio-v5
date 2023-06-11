@@ -10,17 +10,268 @@ This is a site I made for Frontend Mentor's [Space tourism multi-page website](h
 
 <a href="#demo-video">Skip to Demo Video</a>
 
-## What's the Goal of this Site?
+## What's The Goal Of This Site?
 
+The main goal of creating this site was to reassess my knowledge of regular HTML, CSS, and JavaScript after working with React for the past few months and see if I still remember the basics.
 
 ## Demo Video
 
 <video src="/projects/space-tourism-site/demo.mp4" controls muted />
 
-## Building the Site
+## Building The Site
 
 ### Setup
 
+As this is a free project available online, they provided the assets along with the starter files that we'll build the application from. From the starter files, it seems that the intended way of doing this project is to minimize the JavaScript needed. I came up to this conclusion due to some pages having "tabs" which displays other content, in which there are HTML files for each "tab".
 
-### Overall Learnings
+One benefit of this project is that they provided us with the Figma files where we can look for more visual cues.
 
+### Process
+
+#### Basic styling
+
+The first thing I did was to write out the CSS that I felt was needed based off the Figma files. I created variables for the colors needed along with setting the typography for each element.
+
+#### Starting With One Page
+
+The first thing I did was to create the desktop layout for a single page since some of the content will end up being reusable - for instance, the navigation bar.
+
+> A better way to start a project is to create the styles for mobile first before doing desktop layouts.
+
+#### Remaining Pages
+
+Essentially once we finish creating & styling a single page, it's mostly copy-and-paste. For instance, I then worked on the destination page which contained tabs for the 4 destinations. These destinations were broken up into 4 different HTML files to simplify the logic required. As this is the case, once we complete one of these destination layouts, we can copy-and-paste it to the remaining 3 and adjust it.
+
+#### Remaining Tasks
+
+After finishing the destination pages, I worked on the tablet styling according to the Figma files. Following this was working on the crew & technologies pages. I ended up finishing the tablet and mobile styling.
+
+## Refactoring With React
+
+As mentioned earlier, one of the main reasons why I wanted to refactor what I did is due to there being a lot of reused logic. We can look at one of our HTML destination pages to see the reused logic:
+
+```html showLineNumbers {2-25,27-78}
+<body>
+  <nav class="main-nav flex">
+    <div class="logo"><img src="../assets/shared/logo.svg" alt="logo" /></div>
+
+    <button id="nav-control" data-toggle="false"></button>
+
+    <div class="action flex">
+      <div class="line"></div>
+
+      <ul id="nav-menu" class="flex" data-visible="false">
+        <li>
+          <a href="./index.html"><span>00</span>Home</a>
+        </li>
+        <li class="active">
+          <a href="./destination-moon.html"><span>01</span>Destination</a>
+        </li>
+        <li>
+          <a href="./crew-commander.html"><span>02</span>Crew</a>
+        </li>
+        <li>
+          <a href="./technology-vehicle.html"><span>03</span>Technology</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="content flex">
+    <p class="curr-page"><span>01</span> Pick Your Destination</p>
+
+    <div class="container flex">
+      <div class="main-img">
+        <img
+          src="../assets/destination/image-europa.webp"
+          alt="picture of the moon"
+        />
+      </div>
+
+      <main class="main-content flex">
+        <nav class="main-nav flex">
+          <ul class="flex">
+            <li>
+              <a href="./destination-moon.html">Moon</a>
+            </li>
+            <li>
+              <a href="./destination-mars.html">Mars</a>
+            </li>
+            <li class="active">
+              <a href="./destination-europa.html">Europa</a>
+            </li>
+            <li>
+              <a href="./destination-titan.html">Titan</a>
+            </li>
+          </ul>
+        </nav>
+
+        <h2>Europa</h2>
+        <p class="text-content">
+          The smallest of the four Galilean moons orbiting Jupiter, Europa is a
+          winter lover&apos;s dream. With an icy surface, it&apos;s perfect for
+          a bit of ice skating, curling, hockey, or simple relaxation in your
+          snug wintery cabin.
+        </p>
+
+        <hr class="horiz-line" />
+
+        <div class="info flex">
+          <div>
+            <p class="subheading-2">Avg. distance</p>
+            <p class="subheading-1">628 mil. km</p>
+          </div>
+          <div>
+            <p class="subheading-2">Est. travel time</p>
+            <p class="subheading-1">3 years</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+</body>
+```
+
+For instance, across all our pages, the navigation bar can be made into a component in React and shared across all pages. In addition, for the destination pages, the overall logic can be reused across all destination pages.
+
+To also enable this modularization of the original code, we created a JSON file containing all the data needed to achieve this pattern.
+
+### Setup
+
+The first thing I did was use `create-react-app` to create a basic React application and brought over the assets provided by Frontend Mentor for this project. In addition, I created a JSON file containing all the data needed to create our more modular approach to the project.
+
+### Navigation
+
+To handle navigation in React, since it was originally made for single-page applications (SPAs), we need to add the React Router library. We can essentially copy over the navigation bar from the original implementation of this project with some slight modifications to work with our new navigation with React Router. Now instead of having this navigation logic be copied on every page as seen previously, we can just have it in one place - in the root element of our React app.
+
+```jsx {13}
+import { Routes, Route } from "react-router-dom";
+
+import MainNav from "./components/navigation";
+import HomePage from "./pages/home";
+import DestinationPage from "./pages/destination";
+import CrewPage from "./pages/crew";
+import TechnologyPage from "./pages/technology";
+import ErrorPage from "./pages/error";
+
+const App = () => {
+  return (
+    <>
+      <MainNav />
+      <div className="content-wrapper">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="destination" element={<DestinationPage />} />
+          <Route path="crew" element={<CrewPage />} />
+          <Route path="technology" element={<TechnologyPage />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </div>
+    </>
+  );
+};
+
+export default App;
+```
+
+### Modularizing Our Pages
+
+In the original layout of the code, we had several HTML pages for a single "page" (ie: the destination page) which was needed to display information for each "tab". With React, we can create a single page and deterministically display information based on the specified tab. To make this easier, we can extract the information from the JSON file we made earlier that contained all the necessary data for the site.
+
+```jsx {8} /currData[subPg]/
+import { useState, useEffect } from "react";
+
+import Data from "../data.json";
+import styles from "../styles/destination.module.css";
+
+const DestinationPage = () => {
+  const [subPg, setSubPg] = useState(0);
+  const [currData] = useState(Data.destinations);
+
+  /* Set Background Image */
+  useEffect(() => {
+    document.body.classList = "destination";
+  }, []);
+
+  return (
+    <section className={`flex ${styles["content-wrapper"]}`}>
+      <h1 className={styles["pg-info"]}>
+        <span>01</span> Pick Your Destination
+      </h1>
+
+      <div className={`flex ${styles["content"]}`}>
+        <div className={`flex ${styles["dest-img"]}`}>
+          <img
+            src={currData[subPg].images.webp}
+            alt={`${currData[subPg].name}`}
+          />
+        </div>
+
+        <div className={`flex ${styles["nonImg-content"]}`}>
+          <ul className={`flex ${styles["nav-container"]}`}>
+            {currData.map((dest, idx) => (
+              <li
+                key={dest.name}
+                className={`${styles["nav-item"]} ${
+                  subPg === idx ? styles.active : undefined
+                }`}
+                onClick={() => setSubPg(idx)}
+              >
+                {dest.name}
+              </li>
+            ))}
+          </ul>
+
+          <div className={`flex ${styles["main-content"]}`}>
+            <h2 className={`flex ${styles["dest-name"]}`}>
+              {currData[subPg].name}
+            </h2>
+
+            <main className={styles.description}>
+              {currData[subPg].description}
+            </main>
+
+            <div className={styles["facts-container"]}>
+              <hr className={styles.line} />
+
+              <div className={`flex ${styles["dest-info"]}`}>
+                <div>
+                  <p class="subheading-2">Avg. distance</p>
+                  <p class="subheading-1">384,400 km</p>
+                </div>
+                <div>
+                  <p class="subheading-2">Est. travel time</p>
+                  <p class="subheading-1">3 days</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+```
+
+When we hit this page route, we first pull the information needed and store it in a state variable. In the returned JSX code, we'll have "buttons" which when clicked, change the `subPg` state which will change what information will be displayed. We handle this in the returned JSX, which we display the data from `currData[subpg]` which is the data of a specific "tab".
+
+> This can be slightly improved by instead of having to write `currData[subpg]` when we use it, we just create a variable and store it instead. This can be done as when a state changes, the element re-renders itself. We'll have something like the following:
+
+```jsx {4}
+// Previous imports
+const DestinationPage = () => {
+  const [subPg, setSubPg] = useState(0);
+  const currData = Data.destinations[subPg ?? 0];
+
+  /* Set Background Image */
+  useEffect(() => {
+    document.body.classList = "destination";
+  }, []);
+
+  // Returning the JSX for the page element...
+};
+```
+
+## Overall Learnings
+
+There wasn't much to be learned with doing this project, except that I reaffirmed my knowledge of basic HTML, CSS, and JavaScript.
