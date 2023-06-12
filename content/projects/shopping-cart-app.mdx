@@ -6,24 +6,223 @@ website: https://cyanchill-shopping-cart-app.netlify.app/
 github: https://github.com/cyanChill/React-Shopping-Cart-App
 ---
 
+<MdxNotice>
+  Here's a link to the original inspiration,
+  [lttstore.com](https://web.archive.org/web/20220109133835/https://www.lttstore.com/)
+  (they have since updated their site design).
+</MdxNotice>
+
 This is an application that I made for The Odin Project's [Shopping Cart](https://www.theodinproject.com/lessons/node-path-javascript-shopping-cart) project for their JavaScript course. The overall goal was to use our newly found React knowledge to create a shopping cart application.
 
 <a href="#demo-video">Skip to Demo Video</a>
 
-## What's the Goal of this Application?
+## What's The Goal Of This Site?
 
-
-## Features
-
+The goal I want to accomplish is to show how easy it can be to create visually, a good-looking site to sell goods (even if functionally, there's no payment logic).
 
 ## Demo Video
 
 <video src="/projects/shopping-cart-app/demo.mp4" controls muted />
 
-## Building the Application
+## Building The Application
 
 ### Setup
 
+This site was created from `create-react-app`.
 
-### Overall Learnings
+### Animations
 
+Something that I wanted to try with this site is using the `react-transition-group` library to do animations. I notably used it for the sidebar of the navigation interface. The general idea is that we wrap what we want to animate with a `CSSTransition` element. What `CSSTransition` does is apply classes to the element it wraps during the `appear`, `enter`, and `exit` states of the transition. For example:
+
+```jsx
+/* A portion from "src/components/Navigation/SideBar.js" */
+<CSSTransition
+  in={props.show}
+  timeout={250}
+  classNames={{
+    enterActive: classes["slide-enter"],
+    enterDone: classes["slide-enter-active"],
+    exitActive: classes["slide-exit"],
+    exitDone: classes["slide-exit-active"],
+  }}
+  mountOnEnter
+  unmountOnExit
+>
+  <aside className={classes["side-drawer"]} onClick={props.onClick}>
+    <div className={classes["primary-links"]}>{mainNavLinks}</div>
+
+    <div className={classes["secondary-links"]}>
+      {legalLinks}
+      <SlideAnimLink to="/account" label="Account" muted />
+    </div>
+  </aside>
+</CSSTransition>
+```
+
+There are 3 main phases for each state (`appear`, `enter`, and `exit`) which are `*`, `*-active`, and `*-done` which are triggered in this specified order (`*` represents one of the 3 states).
+
+The transitions are triggered by the `in` prop of the `CSSTransition` element, with the duration of the transitions specified by `timeout` in milliseconds.
+
+The `mountOnEnter` and `unmountOnExit` props give us the ability to "hide" the element from the DOM and remove it from the DOM if it's not "active".
+
+### Scrolling To Top Of Page
+
+One of the problems I faced is that when using React Router to transition between pages, the page doesn't scroll to the top. I ended up fixing this by creating an element that'll wrap all our routes with the task of setting the window scroll to 0 if the route changes.
+
+```jsx {5-13,29-33}
+/* "src/components/ScrollToTop.js" */
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+const ScrollToTop = (props) => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return <>{props.children}</>;
+};
+
+export default ScrollToTop;
+
+/* A portion from "src/App.js" */
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import ScrollToTop from "./components/ScrollToTop";
+
+// Imports for pages for each route
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Navbar />
+
+      <ScrollToTop>
+        <Routes>
+          {/* List of Routes */}
+        </Routes>
+      </ScrollToTop>
+
+      <Footer />
+    </BrowserRouter>
+  );
+};
+
+export default App;
+```
+
+## Improving The Site By Adding Firebase
+
+### Saving Shopping Cart Data
+
+In my initial implementation, we didn't save the user's shopping cart as there wasn't really a reason to do it. However, with us adding Google login via Firebase, it makes sense for us to save the shopping cart of the logged in user along with saving it locally if the person isn't logged in.
+
+```jsx {62-81}
+/* A portion from "src/context/shopping-ctx.js" */
+
+const CartProvider = (props) => {
+  const { isLoggedIn, auth, firestore } = useContext(FirebaseContext);
+  const [cart, dispatch] = useReducer(cartReducer, []);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getCartTotal = useCallback(() => {
+    /* ... */
+  }, [cart]);
+
+  const getNumItems = useCallback(() => {
+    /* ... */
+  }, [cart]);
+
+  /* 
+    Internal functions used to repopulate cart data on login/logout 
+    with database/local storage data 
+  */
+  const populateCart = useCallback((savedCart) => {
+    /* ... */
+  }, []);
+
+  /* Fetching Shopping Cart */
+  const FetchShoppingCart = useCallback(async () => {
+    if (isLoggedIn) {
+      const cartsRef = firestore
+        .collection("shopping-carts")
+        .doc(auth.currentUser.uid);
+
+      const cartData = await new Promise((resolve, reject) => {
+        cartsRef.get().then((doc) => {
+          if (doc.exists) {
+            resolve(doc.data());
+          } else {
+            resolve({ cart: [] });
+          }
+        });
+      });
+
+      populateCart(cartData.cart);
+    }
+  }, [populateCart, isLoggedIn, firestore]);
+
+  const reloadCartData = useCallback(async () => {
+    setIsLoading(true);
+
+    if (isLoggedIn) {
+      await FetchShoppingCart();
+    } else {
+      const localCart = JSON.parse(localStorage.getItem("shopping-cart")) || [];
+      populateCart(localCart);
+    }
+
+    setIsLoading(false);
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    reloadCartData();
+  }, [reloadCartData]);
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    if (isLoggedIn) {
+      const cartsRef = firestore
+        .collection("shopping-carts")
+        .doc(auth.currentUser.uid);
+
+      cartsRef
+        .set({ cart: cart, uid: auth.currentUser.uid })
+        .then(() => {
+          console.log("Document successfully written!");
+        })
+        .catch((err) => console.log(`Error writing document: ${err}`));
+    } else {
+      localStorage.setItem("shopping-cart", JSON.stringify(cart));
+    }
+
+    setIsLoading(false);
+  }, [cart]);
+
+  const cartValues = {
+    /* Return values */
+  };
+
+  return (
+    <CartContext.Provider value={cartValues}>
+      {props.children}
+    </CartContext.Provider>
+  );
+};
+```
+
+We have 2 main methods of fetching shopping cart data - either through `FetchShoppingCart` if the user is logged in or `reloadCartData` if the user isn't logged in (fetched through the `else` condition). `reloadCartData` is the main interface of fetching shopping cart data.
+
+- If the user is logged in, `reloadCartData` will run the `FetchShoppingCart` function which looks in our Firebase database and sees if a shopping cart exists for the current user. If it does, it'll get that data; otherwise, it returns an empty array. That data will then be inserted into the `populateCart` function which just updates the state.
+- If the user isn't logged in, `reloadCartData` will enter its `else` block and look in localStorage to see if a shopping cart exists and return it. If it doesn't exist, an empty array is returned. That data then goes into the `populateCart` function.
+
+This `reloadCartData` function is run only in this context on a `useEffect()`, which is what we want as we only want this to run once on initialization of the site.
+
+We have a second `useEffect()` which updates the shopping cart data we're storing either in localStorage or in Firebase when the `cart` state containing the current shopping cart is updated.
+
+## Overall Learnings
+
+1. Seeing how the `react-transition-group` library can make animating elements easier.
+2. Saving data conditionally based on the current user's authentication status.
