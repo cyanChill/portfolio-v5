@@ -11,6 +11,8 @@ module.exports = {
     extend: {
       animation: {
         "pop-in": "pop-in 300ms ease-in-out 150ms forwards",
+        slideX: "slideX 1s ease-in-out infinite alternate forwards",
+        slideY: "slideY 1s ease-in-out infinite alternate forwards",
       },
       backgroundImage: {
         "home-pattern": "var(--blur-gradient), url('/ui/home-pattern.svg')",
@@ -39,6 +41,14 @@ module.exports = {
         "pop-in": {
           "0%": { opacity: 0, transform: "translateY(1.5rem)" },
           "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+        slideX: {
+          "0%": { translate: "0%" },
+          "100%": { translate: "25%" },
+        },
+        slideY: {
+          "0%": { translate: "0 0%" },
+          "100%": { translate: "0 25%" },
         },
       },
     },

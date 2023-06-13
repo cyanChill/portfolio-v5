@@ -68,10 +68,10 @@ export default function NavBar() {
 
       <CenterLayout variant="header">
         <nav
-          className={`fixed left-0 top-0 z-40 flex h-screen w-screen flex-col overflow-y-auto overscroll-none bg-primary-bkg px-12 sm:relative sm:mx-6 sm:mt-4 sm:h-auto sm:w-auto sm:flex-row sm:items-center sm:justify-between sm:bg-transparent sm:px-0 ${
+          className={`fixed left-0 top-0 z-40 flex h-screen w-screen flex-col overflow-y-auto overscroll-none bg-primary-bkg px-12 transition duration-500 sm:relative sm:mx-6 sm:mt-4 sm:h-auto sm:w-auto sm:flex-row sm:items-center sm:justify-between sm:bg-transparent sm:px-0 sm:duration-0 ${
             isOpen
-              ? "visible"
-              : "pointer-events-none invisible sm:pointer-events-auto sm:visible"
+              ? "translate-x-0 opacity-100"
+              : "pointer-events-none translate-x-full opacity-0 sm:pointer-events-auto sm:translate-x-0 sm:opacity-100"
           }`}
           ref={navMenu}
         >
@@ -93,8 +93,10 @@ export default function NavBar() {
                 <li key={route} className="w-fit">
                   <Link
                     href={derivedRoute}
-                    className={`relative before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-[1.5ch] hocus:opacity-100 hocus:before:bg-white ${
-                      isActive ? "before:bg-white" : "opacity-70"
+                    className={`relative before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-[1.5ch] before:origin-left before:scale-x-0 before:transition before:duration-300 ${
+                      isActive
+                        ? "before:scale-x-100 before:bg-white"
+                        : "opacity-70 hocus:opacity-100 hocus:before:scale-x-100 hocus:before:bg-white"
                     }`}
                   >
                     {route}
@@ -106,15 +108,19 @@ export default function NavBar() {
 
           <Link
             href="/contact"
-            className={`mt-12 flex w-fit items-center gap-1 rounded-md border-2 p-2 py-1.5 font-bold sm:mt-0 sm:h-fit ${
+            className={`mt-12 flex w-fit items-center gap-1 rounded-md border-2 p-2 py-1.5 font-bold transition duration-300 sm:mt-0 sm:h-fit ${
               pathname === "/contact"
                 ? "border-white"
-                : "border-slate-800 bg-slate-800"
+                : "border-slate-800 bg-slate-800 hocus:border-white hocus:bg-transparent"
             }`}
           >
             {`Let's work together`}
             <BsArrowRightShort
-              className={pathname === "/contact" ? "rotate-90" : ""}
+              className={`transition duration-300 ${
+                pathname === "/contact"
+                  ? "rotate-90 animate-slideY"
+                  : "animate-slideX"
+              }`}
             />
           </Link>
 

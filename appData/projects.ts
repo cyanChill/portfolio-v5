@@ -33,6 +33,7 @@ export const PROJECTS: ProjectData = [
       "Flask",
       "Python",
       "PostgreSQL",
+      "CI/CD"
     ],
   },
   {
