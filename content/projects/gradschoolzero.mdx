@@ -6,24 +6,306 @@ website: ""
 github: https://github.com/cyanChill/GradSchoolZero
 ---
 
-This is an application that I made for my Software Engineering class over the course of the semester with a group of 4 other students. All groups in the class aimed to recreate an application based on a rubric containing features provided by the professor. In addition, we were asked to create phase reports during the process.
+<MdxNotice>
+  This application isn't be hosted due to our choice in how we handle our
+  database. You can view the demonstration video for a sense of how the
+  application looked and function.
+
+  <a href="#demo-video">Skip to Demo Video</a>
+</MdxNotice>
+
+<MdxNotice>
+  This is a React application that I made with a group back in 2021. Currently (June 2023), I see many shortcomings of the project that should be improved which are discussed further down in the report.
+
+  <a href="#critics-i-have-from-the-present-june-2023">Skip to Critics</a>
+</MdxNotice>
+
+This is an application that I made for my Software Engineering class over the course of the semester with a group of 4 other students. All groups in the class aimed to recreate an application based on a rubric containing features provided by the professor. In addition, we were asked to create 2 phase reports during the process.
 
 <a href="#demo-video">Skip to Demo Video</a>
 
-## What's the Goal of this Application?
+## What's The Goal Of This Application?
 
+This is a graduate program management system with 4 types of users - **registrars** who are the super users, **instructors** who can access courses they're assigned by the registrars, **students** who can manage the courses they're in, and **outside visitors** who can browse some basic information.
+
+The idea of this application is to be a self-contained system that allows visitors to apply as a student or an instructor to our fake college. The registrar creates the classes and assigns instructors to those classes. Students will then apply to those classes and receive grades from the instructor at the end of the semester while having the option to drop the class early. The semester is broken up into 4 periods, each with their own specifications.
+
+This application idea was suggested by a group of students in our Software Engineering class and selected by the professor. This application aimed to be a replacement for software we used as students at The City College of New York, which was Blackboard and CUNYFirst.
+
+A more specific walk through of the application can be read through the project specifications given to each group below:
+
+<MdxEmbedPDF
+  src="/projects/gradschoolzero/specifications.pdf"
+  docName="Full Specifications"
+/>
 
 ## Features
 
+**Outside Visitors** have the ability to:
+
+- Browse through basic information such as classes and students.
+- Apply to be a student or instructor.
+- View statistics such as highest & lowest rated classes and students with the highest GPA.
+
+**Students** have the ability to:
+
+- Register between 2-4 courses per semester.
+- Retake the same class if they got a `F` previously.
+- Write reviews for the class and assign a rating between 1-5 stars.
+- "Complain"/report a student to the instructor.
+- "Complain"/report an instructor to the registrar.
+- View their academic records.
+- Drop classes between the "registration" and "grading" periods for a grade of `W`.
+
+**Instructors** have the ability to:
+
+- Assign grades to students in their class.
+- View basic information along with the academic records of students in their current classes.
+- "Complain"/report a student to the registrar.
+
+**Registrars** have the ability to:
+
+- Accept or reject applications for new students or instructors.
+- Set up classes, class times, course instructors, and class size during the "class set-up period" of the semester.
+- Handle complaints made by students and instructors.
 
 ## Demo Video
 
 <video src="/projects/gradschoolzero/demo.mp4" controls muted />
 
-## Building the Application
+## Reports
+
+For this project, we had to write 2 phase reports to replicate what we would possibly be doing once we have a job in Computer Science.
+
+The goal of **Phase Report 1** is to provide the software requirement specifications for our application. We outline what we'll potentially be using to create the application based on the specifications provided to us. We had to provide some use case diagrams and go over the use cases for each type of user in our application.
+
+<MdxEmbedPDF
+  src="/projects/gradschoolzero/phase-1-report.pdf"
+  docName="Phase 1 Report"
+/>
+
+The goal of **Phase Report 2** is to act as a design report. This includes providing use case analysis on features we'll have on our application along with detailed diagrams and design ideas for them. In addition, we have to provide some mockups of the views the user will see.
+
+<MdxEmbedPDF
+  src="/projects/gradschoolzero/phase-2-report.pdf"
+  docName="Phase 2 Report"
+/>
+
+## Preparation For Building The Application
 
 ### Setup
 
+The group I was part of was formed because we all wanted to learn & use React to build this application. This app in turn was built off `create-react-app`.
 
-### Overall Learnings
+### Styling
 
+To make things easier, we primarily utilized Bootstrap as the main form of styling our application. In addition, to simplify using Bootstrap, we used the `react-bootstrap` library that contains components that trivialize Bootstrap.
+
+We also sprinkled in some components from Material UI through the `@mui/material` library as well.
+
+Since our styling sense is pretty bad, we made the visual components to be as simple and pleasing as possible with the Bootstrap and Material UI libraries.
+
+### "Server" Structure
+
+Initially, we planned on using an Express server to host the back end, however, after some decision making since most of the people in our group didn't know how to use React, we decided mock what we did on the server in the client to allow our group to focus on learning React.
+
+### Database
+
+For our database, to make things simpler, we used a JSON file and used the `json-server` library to make the JSON file act as a database server. For accessing this database, we made "hooks" that interacted with the database directly.
+
+This database server is turned on by running `npm run serve`, which runs the `serve` script which runs `json-server --watch db.json --port 2543`.
+
+## Building The Application
+
+### Protected Routes
+
+To have a multi-page application in React, we have to use the React Router library. We can create protected routes by:
+
+1. Creating a custom component that looks for the current user's authentication state.
+2. Passing the user's authentication status into a modified `<Route />` component from `react-router-dom`.
+3. Conditionally renders the route based off the user's authentication status.
+   - If the user is authenticated, it'll redirect them to the correct route.
+   - If the user isn't authenticated, it'll redirect them to the login page.
+
+What we'll get is something like:
+
+```jsx
+import { useContext, cloneElement } from "react";
+import { Route, Redirect } from "react-router-dom";
+import { GlobalContext } from "../../GlobalContext";
+
+const ProtectedRoute = ({ children, location, ...rest }) => {
+  const { userHook } = useContext(GlobalContext);
+  const { isLoggedIn } = userHook;
+  /* Only allow logged in users to access*/
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        isLoggedIn ? (
+          cloneElement(children, { ...children.props, location })
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+};
+
+export default ProtectedRoute;
+```
+
+This general structure can then be replicated to create additional protected routes which allows:
+
+- Only the public to see (ie: unauthenticated users).
+- Only the registrar to see.
+
+### Passing Data To Other Pages
+
+How we passed data to other pages (which is mostly suboptimal) is through using `react-router-dom`'s `location` prop in which we passed data through its state.
+
+[`<Redirect />`](https://v5.reactrouter.com/web/api/Redirect/to-object) is a component from `react-router-dom` which allows us to redirect to a different page. It allows the option to pass an object into the `to` prop **containing properties such as the path we want to go to along with state. The state is accessed through `props.location.state`**.
+
+To demonstrate the passage of state through the `location` props, we first show an example of using the `<Redirect />` component to show the passage of state:
+
+```jsx {13-17}
+/* A portion from "src/components/RegisterView/Applications/Applicant.js" */
+
+// Imports
+
+const Applicant = () => {
+  // Other component logic
+
+  if (successType === "accept") {
+    return (
+      <Redirect
+        to={{
+          pathname: "/create/user",
+          state: {
+            application,
+            justification,
+            reqJust: reqJust.accept,
+          },
+        }}
+      />
+    );
+  }
+
+  // Return the rendered component
+};
+```
+
+Here's then an example of reading the passage of state through the `location` prop:
+
+```jsx {5,10-11}
+/* A portion from "src/components/RegisterView/Applications/CreateUserForm.js" */
+
+// Imports
+
+const CreateUserForm = ({ location }) => {
+  // Other component logic
+
+  /* Attempt to load information passed via history */
+  useEffect(() => {
+    if (location.state) {
+      const { application: applic, justification, reqJust } = location.state;
+
+      const { id, name, email, type } = applic;
+
+      if (location.state) {
+        setInputInfo({ applic, id, name, email, type, justification, reqJust });
+        setUserInfo((prev) => ({
+          ...prev,
+          name,
+          email: `${name.replace(/\s/g, "").toLowerCase()}@gradschoolzero.edu`,
+          type,
+        }));
+      }
+    }
+  }, []);
+
+  // Return the rendered component
+};
+```
+
+### Our "Hooks"
+
+We designed many "hooks" to interact with our database and to act like a server. We created "hooks" such as:
+
+- **useApplicationFetch**: This is a "hook" that handles all the logic related to the applications from outside users that want to be a student or instructor in our college directly from our database. This contains functions to help with application-related logic seen on the client including adding & removing an application to/from the database.
+- **useComplaintsFetch**: This is a "hook" that handles all the logic related to the complaints dealt with by the Registrar. This "hook" contains functions to resolve complaints that are handled by the Registrar along with getting all the complaints in our database.
+- **useCourseFetch**: This is a "hook" that handles all the logic related to all the course logic required by the registrar, instructors, and students. It contains functions to:
+  - Allow the registrar to add, delete, and cancel a course.
+  - Allow the students to enroll & drop a course along with waitlist logic.
+  - Allow the instructors to add students to the course from the waitlist or reject them from the waitlist. In addition, it lets them assign grades.
+  - Get all courses, their "instances" (its occurrence it each semester), the class GPA, class rating,
+- **useInfractions**: This is a "hook" that handles all the logic related to assigning warnings and suspensions. It contains functions to manage warnings & suspensions on users, submitting complaints, and getting information about warnings & suspensions for a specific user.
+- **useInstructorFetch**: This is a "hook" that handles all the logic related to managing instructors and getting their information. It contains functions to:
+  - Allow the Registrar to manage the instructors by firing, suspending, or warning them based on their status within the college.
+  - Managing instructors that are potentially suspicious automatically through their class GPA or ratings.
+  - Get their average rating based on the courses they taught.
+- **useReviewFetch**: This is a "hook" that handles all the logic related to the adding reviews for a class of an instructor.
+- **useTabooFetch**: This is a "hook" that handles all the logic related to "taboo" words which are usually found in reviews. This contains functions to allow the Registrar to add and delete taboo words along with automatically censoring taboo words in reviews made by students.
+- **useTermInfo**: This is a "hook" that handles all the logic related to changing of periods in a semester. This contains functions for the Registrar which allows them to change the current semester period (from the 4 available periods) along with getting information about the current and next semester periods.
+  - The function that changes the current semester period has logics that run on the occurrence of changed periods such as updating instructor ratings, warning instructors for bad or suspicious behaviors, updating student GPAs, expelling students, suspending students, and updating class ratings during the "set-up period".
+- **useUserFetch**: This is a "hook" that handles all the logic related to users. It contains functions to:
+  - Handling authentication for all users.
+  - Updating user information such as passwords.
+  - Getting student information such as overall GPA and semester GPA.
+  - Handling actions that'll be apply to students conditionally such as expelling students that failed a course twice.
+  - Getting information on students with the top 3 GPA.
+  - Allowing students to register for graduation.
+
+## Critics I Have From The Present (June 2023)
+
+### Database
+
+Running the database primarily off a JSON file and using `json-server` to mock is pretty suboptimal.
+
+### Unhashed Passwords
+
+Related to the database, we currently store unhashed passwords. This is a big security problem as if our database gets exposed - which is what we have currently as this file is stored in our GitHub repository to allow for playing around with our application.
+
+### Can't Be Installed
+
+A current problem I face when trying to install this application with my current Node.js version (v18.16) is that I get some errors from trying to install the dependencies the application needs.
+
+### Lack Of A Back End
+
+One of the major gripes that I have is the lack of a back-end server that our application calls to in order to do database-related actions. This relates back to my database critic from earlier as in addition to that, database action should occur in the back end for security. This lack of a back end caused me to create a work-around to mock this behavior which was through a bunch of "hooks", which in retrospect, created a lot of spaghetti code.
+
+## Bright Side Of This Application
+
+However, even with these critics, I'm happy with what I was able to accomplish with my group as we managed to create a working application. Compared to previous projects that I worked on, this was the biggest to date and the most complex.
+
+## Improvements That Should Be done
+
+### Using An Actual Database
+
+To move off using primarily a JSON file as our database, we should use something more established like:
+
+1. A SQL database such as PostgreSQL and use something like SQLite locally for testing & development.
+2. A NoSQL database such as MongoDB if we want to have something more JSON-like (similar to what we had originally).
+
+### Hashing Passwords
+
+One of the problems that can be easily fixed is the passwords of users of our application being unhashed. This can simply be fixed by using the `bcrypt` library to hash the passwords for us. This issue mainly occurred due to a specification where when we accept an application, we have to create an account for the new user or instructor and send them their email and password to access more features of the GradSchoolZero application as an authenticated user.
+
+### Moving The "Server" Logic To An Actual Server
+
+This is mainly to split up the code and make the client file directory look cleaner. This also allows for refactoring of the code to get rid of the "spaghetti" nature that I found prior to having the "server" be in the form of "hooks". This also allows us to secure our manipulation of the database as prior, it was done on the client, which isn't the best idea.
+
+### Updating The Tech Stack
+
+This follows the idea of moving our "server" logic to an actual server. Instead of doing this, we could try something new and modern like Next.js which allows us to write "server" code through its API routes feature.
+
+## Overall Learnings
+
+1. Time management and organization for working on a big project.
+2. Creating phase reports to demonstrate our ideas and to give progress.
+3. Creating a giant application based off some specifications.

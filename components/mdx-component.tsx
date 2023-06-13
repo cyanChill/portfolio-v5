@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useMDXComponent } from "next-contentlayer/hooks";
 
 import ImageViewer from "./ImageViewer";
+import MdxEmbedPDF from "./mdx-embedPDF";
 import MdxNotice from "./mdx-notice";
 
 type ComponentProps = {
@@ -26,6 +27,7 @@ const components = {
   Image,
   ImageViewer,
   Link,
+  MdxEmbedPDF,
   MdxNotice,
 };
 
