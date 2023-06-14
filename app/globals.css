@@ -13,6 +13,9 @@
     rgb(0 0 0 / 0.9) 2.5%,
     transparent
   );
+
+  --pop-in-delay: 150ms;
+  --scaleX-delay: 0ms;
 }
 
 /* To get line numbers in code blocks with rehype-pretty-code */

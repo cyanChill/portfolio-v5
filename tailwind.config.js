@@ -10,7 +10,7 @@ module.exports = {
   theme: {
     extend: {
       animation: {
-        "pop-in": "pop-in 300ms ease-in-out 150ms forwards",
+        "pop-in": "pop-in 300ms ease-in-out var(--pop-in-delay) forwards",
         slideX: "slideX 1s ease-in-out infinite alternate forwards",
         slideY: "slideY 1s ease-in-out infinite alternate forwards",
       },
@@ -49,6 +49,10 @@ module.exports = {
         slideY: {
           "0%": { translate: "0 0%" },
           "100%": { translate: "0 25%" },
+        },
+        scaleX: {
+          "0%": { transform: "scaleX(0)" },
+          "100%": { transform: "scaleX(1)" },
         },
       },
     },

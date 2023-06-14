@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 
 import * as skillData from "@/appData/skills";
 import CenterLayout from "@/components/layout/CenterLayout";
@@ -11,7 +12,7 @@ export const metadata = {
 export default function About() {
   return (
     <CenterLayout className="my-20 grid gap-4 px-6 sm:py-8 lg:my-auto lg:grid-cols-2 lg:gap-10 lg:px-20">
-      <section className="md:my-auto">
+      <section className="animate-pop-in opacity-0 md:my-auto">
         <h1 className="text-3xl font-bold sm:text-4xl">
           <span className="gradient-primary-text">Who am I?</span>
         </h1>
@@ -68,18 +69,22 @@ export default function About() {
           label="Front End"
           bgColor="bg-slate-700"
           icons={skillData.FRONT_END}
+          style={{ "--pop-in-delay": "300ms" } as CSSProperties}
+          className="animate-pop-in opacity-0"
         />
         <SkillGroup
           label="Back End"
           bgColor="bg-slate-600"
           icons={skillData.BACK_END}
-          className="mt-auto"
+          style={{ "--pop-in-delay": "450ms" } as CSSProperties}
+          className="mt-auto animate-pop-in opacity-0"
         />
         <SkillGroup
           label="Developer Tools"
           bgColor="bg-slate-800"
           icons={skillData.DEVELOPMENT_TOOLS}
-          className="sm:col-span-2 sm:ml-[clamp(6rem,3vw,8rem)]"
+          style={{ "--pop-in-delay": "600ms" } as CSSProperties}
+          className="animate-pop-in opacity-0 sm:col-span-2 sm:ml-[clamp(6rem,3vw,8rem)]"
         />
       </section>
     </CenterLayout>
@@ -90,6 +95,7 @@ type SkillGroupType = {
   label: string;
   bgColor?: string;
   icons: skillData.SkillData;
+  style?: CSSProperties;
   className?: string;
 };
 
@@ -97,10 +103,11 @@ const SkillGroup = ({
   label,
   bgColor = "bg-slate-900",
   icons,
+  style,
   className,
 }: SkillGroupType) => {
   return (
-    <div className={`rounded-lg p-4 ${bgColor} ${className}`}>
+    <div style={style} className={`rounded-lg p-4 ${bgColor} ${className}`}>
       <p className="text-2xl font-semibold">{label}</p>
       <div className="mt-2 grid grid-cols-[repeat(auto-fit,70px)] justify-evenly gap-2">
         {icons.map((icon) => {
@@ -122,7 +129,7 @@ const SkillGroup = ({
           return (
             <div
               key={icon.name}
-              className="flex w-[70px] flex-col items-center text-xs"
+              className="flex w-[70px] flex-col items-center text-xs transition duration-200 hover:scale-105"
             >
               {iconEl}
               <p className="mt-auto">{icon.name}</p>
