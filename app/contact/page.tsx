@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function Contact() {
   return (
-    <CenterLayout className="my-20 grid gap-4 px-6 sm:py-8 md:my-auto md:grid-cols-2 md:gap-10 md:px-20 animate-pop-in opacity-0">
+    <CenterLayout className="my-20 grid animate-pop-in gap-4 px-6 opacity-0 sm:py-8 md:my-auto md:grid-cols-2 md:gap-10 md:px-20">
       <section>
         <h1 className="text-3xl font-bold sm:text-4xl">
           <span className="gradient-primary-text">Contact</span>

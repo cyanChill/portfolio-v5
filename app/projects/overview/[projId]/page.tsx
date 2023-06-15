@@ -67,7 +67,7 @@ export default async function ProjectOverview({ params }: PageProps) {
             boxShadow: `0 -100px 0 ${project.heroHex}`,
           } as CSSProperties
         }
-        className="relative isolate w-full pt-20"
+        className="relative isolate w-full animate-pop-in pt-20 opacity-0"
       >
         <div className="z-10 mx-auto w-full max-w-7xl px-6 md:px-20">
           <Link
@@ -103,7 +103,7 @@ export default async function ProjectOverview({ params }: PageProps) {
         <div className="absolute bottom-0 -z-[1] h-20 w-full bg-primary-bkg" />
       </section>
       <CenterLayout
-        className="mb-12 mt-4 grid w-full gap-2 px-6 md:px-20 lg:grid-cols-[1fr_17.5rem]"
+        className="mb-12 mt-4 grid w-full animate-pop-in gap-2 px-6 opacity-0 md:px-20 lg:grid-cols-[1fr_17.5rem]"
         overflowX={true}
       >
         {/* Main markdown content */}
