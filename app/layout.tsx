@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 
 import "./globals.css";
 import NavBar from "@/components/layout/Navigation";
+import DynamicBkg from "@/components/layout/DynamicBkg";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({
         />
         <NavBar />
         {children}
+        <DynamicBkg />
         <Analytics />
       </body>
     </html>

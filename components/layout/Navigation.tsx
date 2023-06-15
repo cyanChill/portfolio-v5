@@ -27,17 +27,6 @@ export default function NavBar() {
     }
   };
 
-  // Dynamically change the background based on the current route
-  let bkgPattern =
-    "fixed inset-0 -z-10 h-screen w-screen bg-cover bg-no-repeat ";
-  if (pathname === "/") bkgPattern += "bg-home-pattern";
-  else if (pathname === "/about") bkgPattern += "bg-about-pattern";
-  else if (pathname === "/projects") bkgPattern += "bg-projects-pattern";
-  else if (pathname.startsWith("/projects/overview")) {
-    bkgPattern += "bg-primary-bkg";
-  } else if (pathname === "/contact") bkgPattern += "bg-contact-pattern";
-  else bkgPattern += "bg-error-pattern";
-
   let navToggleClass =
     "z-50 fixed right-0 top-4 rounded-l-full p-1 px-4 text-3xl sm:hidden";
   if (!isOpen) navToggleClass += " gradient-primary bg-gradient-to-r";
@@ -50,8 +39,6 @@ export default function NavBar() {
 
   return (
     <>
-      {/* Dynamic background based on route*/}
-      <div className={bkgPattern} />
       {/* Mobile nav control */}
       <button
         className={navToggleClass}
