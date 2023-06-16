@@ -80,11 +80,8 @@ export default function NavBar() {
                 <li key={route} className="w-fit">
                   <Link
                     href={derivedRoute}
-                    className={`relative before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-[1.5ch] before:origin-left before:scale-x-0 before:transition before:duration-300 ${
-                      isActive
-                        ? "before:scale-x-100 before:bg-white"
-                        : "opacity-70 hocus:opacity-100 hocus:before:scale-x-100 hocus:before:bg-white"
-                    }`}
+                    className="animated-nav-link"
+                    data-active={isActive}
                   >
                     {route}
                   </Link>

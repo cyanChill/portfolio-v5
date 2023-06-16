@@ -73,6 +73,19 @@ code > .line {
   .gradient-primary-text {
     @apply gradient-primary bg-gradient-to-r bg-clip-text text-transparent;
   }
+
+  /* Navigation Link Active/Hover Animation */
+  .animated-nav-link {
+    @apply relative before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-[1.5ch] before:origin-left before:scale-x-0 before:transition before:duration-300;
+  }
+
+  .animated-nav-link[data-active="true"] {
+    @apply before:scale-x-100 before:bg-white;
+  }
+
+  .animated-nav-link[data-active="false"] {
+    @apply opacity-70 hocus:opacity-100 hocus:before:scale-x-100 hocus:before:bg-white;
+  }
 }
 
 @layer utilities {
