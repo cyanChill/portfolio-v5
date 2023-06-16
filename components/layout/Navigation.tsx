@@ -70,7 +70,7 @@ export default function NavBar() {
             className="absolute left-4 top-2 sm:static"
           />
 
-          <ul className="mt-auto flex flex-col gap-4 pt-32 text-3xl font-medium sm:m-0 sm:flex-row sm:gap-12 sm:py-0 sm:text-lg md:absolute md:left-1/2 md:-translate-x-1/2 md:gap-20">
+          <ul className="mt-auto flex flex-col gap-4 pt-32 text-3xl font-medium sm:m-0 sm:flex-row sm:gap-12 sm:py-0 sm:text-lg md:absolute md:left-1/2 md:-translate-x-1/2 md:gap-16 lg:gap-20">
             {["Home", "Projects", "About"].map((route) => {
               const derivedRoute =
                 route != "Home" ? `/${route.toLowerCase()}` : "/";
@@ -92,7 +92,7 @@ export default function NavBar() {
 
           <Link
             href="/contact"
-            className={`mt-12 flex w-fit items-center gap-1 rounded-md border-2 p-2 py-1.5 font-bold transition duration-300 sm:mt-0 sm:h-fit ${
+            className={`btn btn-lg px-2 mt-12 gap-1 border-2 text-base transition duration-300 sm:mt-0 sm:h-fit ${
               pathname === "/contact"
                 ? "border-white"
                 : "border-slate-800 bg-slate-800 hocus:border-white hocus:bg-transparent"

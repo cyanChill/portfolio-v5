@@ -32,17 +32,11 @@ export default function Home() {
           mode, and coffee.
         </p>
 
-        <div className="mt-6 flex flex-wrap gap-2 text-sm font-bold sm:text-base">
-          <Link
-            href="/projects"
-            className="flex items-center rounded-md bg-primary p-2 py-1 text-center sm:p-3 sm:py-1.5"
-          >
+        <div className="mt-6 flex flex-wrap gap-2">
+          <Link href="/projects" className="btn bg-primary">
             View My Work
           </Link>
-          <Link
-            href="/about"
-            className="flex items-center rounded-md border-2 border-primary p-2 py-1 text-center sm:p-3 sm:py-1.5"
-          >
+          <Link href="/about" className="btn border-2 border-primary">
             Learn More <span className="sr-only">About Me</span>
           </Link>
         </div>

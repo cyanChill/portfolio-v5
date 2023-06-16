@@ -54,7 +54,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={formState.isSubmitting}
-        className="ml-auto block rounded-md bg-primary p-3 py-1.5 text-center text-sm font-bold sm:text-base"
+        className="btn btn-lg ml-auto bg-primary"
       >
         Send Message
       </button>

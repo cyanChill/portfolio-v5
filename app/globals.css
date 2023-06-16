@@ -86,6 +86,25 @@ code > .line {
   .animated-nav-link[data-active="false"] {
     @apply opacity-70 hocus:opacity-100 hocus:before:scale-x-100 hocus:before:bg-white;
   }
+
+  /* Button Styling */
+  .btn {
+    @apply flex w-fit items-center rounded-md px-2 py-1 text-center text-sm font-bold sm:px-3 sm:py-1.5 sm:text-base;
+  }
+
+  .btn-lg {
+    @apply px-3 py-1.5;
+  }
+
+  /* For most "h1" tags */
+  .title {
+    @apply text-3xl font-bold sm:text-4xl;
+  }
+
+  /* Extra styling on <CenterLayout /> */
+  .page-container {
+    @apply my-20 px-6 sm:py-8 md:px-20;
+  }
 }
 
 @layer utilities {

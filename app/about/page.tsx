@@ -11,9 +11,9 @@ export const metadata = {
 
 export default function About() {
   return (
-    <CenterLayout className="my-20 grid gap-4 px-6 sm:py-8 lg:my-auto lg:grid-cols-2 lg:gap-10 lg:px-20">
+    <CenterLayout className="page-container grid gap-4 lg:my-auto lg:grid-cols-2 lg:gap-10">
       <section className="animate-pop-in opacity-0 md:my-auto">
-        <h1 className="text-3xl font-bold sm:text-4xl">
+        <h1 className="title">
           <span className="gradient-primary-text">Who am I?</span>
         </h1>
         <p className="mt-2 text-sm sm:mt-4 sm:text-base">
@@ -58,7 +58,7 @@ export default function About() {
         <a
           href={process.env.NEXT_PUBLIC_RESUME}
           target="_blank"
-          className="mt-4 flex w-fit items-center rounded-md bg-primary p-2 py-1 text-center text-sm font-bold sm:p-3 sm:py-1.5 sm:text-base"
+          className="btn mt-4 bg-primary"
         >
           View My Resume
         </a>
