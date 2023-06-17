@@ -62,13 +62,15 @@ export default function NavBar() {
           }`}
           ref={navMenu}
         >
-          <Image
-            src="/logo.svg"
-            width={48}
-            height={48}
-            alt="cyanChill logo"
-            className="absolute left-4 top-2 sm:static"
-          />
+          <Link href="/">
+            <Image
+              src="/logo.svg"
+              width={48}
+              height={48}
+              alt="cyanChill logo"
+              className="absolute left-4 top-2 sm:static"
+            />
+          </Link>
 
           <ul className="mt-auto flex flex-col gap-4 pt-32 text-3xl font-medium sm:m-0 sm:flex-row sm:gap-12 sm:py-0 sm:text-lg md:absolute md:left-1/2 md:-translate-x-1/2 md:gap-16 lg:gap-20">
             {["Home", "Projects", "About"].map((route) => {
@@ -92,7 +94,7 @@ export default function NavBar() {
 
           <Link
             href="/contact"
-            className={`btn btn-lg px-2 mt-12 gap-1 border-2 text-base transition duration-300 sm:mt-0 sm:h-fit ${
+            className={`btn btn-lg mt-12 gap-1 border-2 px-2 text-base transition duration-300 sm:mt-0 sm:h-fit ${
               pathname === "/contact"
                 ? "border-white"
                 : "border-slate-800 bg-slate-800 hocus:border-white hocus:bg-transparent"
