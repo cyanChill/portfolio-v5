@@ -95,6 +95,7 @@ export default function ProjectOverview({ params }: PageProps) {
               } as CSSProperties
             }
             className="h-auto w-full rounded-lg object-contain sm:h-96 md:h-[30rem]"
+            priority
           />
         </div>
         {/* Spacer for bottom */}
