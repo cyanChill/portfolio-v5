@@ -38,6 +38,6 @@ type MdxProps = {
 export default function Mdx({ code }: MdxProps) {
   const Component = useMDXComponent(code);
 
-  // @ts-ignore
+  // @ts-ignore: "components" is a valid valid
   return <Component components={components} />;
 }

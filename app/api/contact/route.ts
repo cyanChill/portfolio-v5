@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const bodyData: { [x: string]: any } = await request.json();
+  const bodyData = (await request.json()) as { [x: string]: string };
 
   // Validate input data
   const schemaRes = contactSchema.safeParse(bodyData);

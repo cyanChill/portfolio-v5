@@ -17,17 +17,15 @@ type PageProps = {
 };
 
 // Let Next.js know what project routes we have
-export const generateStaticParams = async () => {
+export const generateStaticParams = () => {
   return allProjects.map((proj) => ({ projId: proj.projId }));
 };
 
 // For better SEO
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const { project, projectData } = await findProject(params.projId);
+export function generateMetadata({ params }: PageProps): Metadata {
+  const { project, projectData } = findProject(params.projId);
 
-  if (!project) {
+  if (!project || !projectData) {
     return {
       title: `Project Overview Not Found`,
       description: "Overview for project not found.",
@@ -40,23 +38,23 @@ export async function generateMetadata({
   }
 }
 
-const findProject = async (projId: string) => {
+const findProject = (projId: string) => {
   const project = allProjects.find((proj) => projId === proj.projId);
   if (!project) return { project, projectData: null };
   return {
     project,
-    projectData: PROJECTS.find((proj) => proj.title === project.projectName)!,
+    projectData: PROJECTS.find((proj) => proj.title === project.projectName),
   };
 };
 
-const projectOrErr = async (projId: string) => {
-  const { project, projectData } = await findProject(projId);
-  if (!project) notFound();
+const projectOrErr = (projId: string) => {
+  const { project, projectData } = findProject(projId);
+  if (!project || !projectData) notFound();
   return { project, projectData };
 };
 
-export default async function ProjectOverview({ params }: PageProps) {
-  const { project, projectData } = await projectOrErr(params.projId);
+export default function ProjectOverview({ params }: PageProps) {
+  const { project, projectData } = projectOrErr(params.projId);
 
   return (
     <>

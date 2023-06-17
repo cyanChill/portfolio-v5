@@ -22,7 +22,7 @@ export default function ContactForm() {
     });
 
     try {
-      const data = await res.json();
+      const data = (await res.json()) as { message: string };
       if (!res.ok) {
         toast.error(data.message); // Some error has occurred
       } else {
@@ -37,7 +37,8 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(submitMessage)}>
+    // Weird syntax for onSubmit function due to TypeScript error
+    <form onSubmit={(...args) => void handleSubmit(submitMessage)(...args)}>
       <Input label="Name" register={register} error={formState.errors.Name} />
       <Input
         label="Email"
