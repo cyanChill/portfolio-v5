@@ -103,8 +103,8 @@ const SkillGroup = ({
   label,
   bgColor = "bg-slate-900",
   icons,
-  style,
-  className,
+  style = {},
+  className = "",
 }: SkillGroupType) => {
   return (
     <div style={style} className={`rounded-lg p-4 ${bgColor} ${className}`}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm, UseFormRegister } from "react-hook-form";
+import { useForm, type UseFormRegister } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Path, SubmitHandler, FieldError } from "react-hook-form";
 import toast from "react-hot-toast";

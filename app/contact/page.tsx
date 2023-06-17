@@ -18,7 +18,7 @@ export default function Contact() {
         <p className="mt-2 text-sm sm:mt-4 sm:text-base">
           Fill out the form or shoot me an email directly at{" "}
           <a
-            href={`mailto:${process.env.NEXT_PUBLIC_EMAIL}`}
+            href={`mailto:${process.env.NEXT_PUBLIC_EMAIL ?? ""}`}
             className="font-bold"
           >
             {process.env.NEXT_PUBLIC_EMAIL}

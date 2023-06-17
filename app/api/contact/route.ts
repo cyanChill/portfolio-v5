@@ -4,6 +4,7 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
 import { contactSchema } from "@/lib/schema";
+import { getErrMSG } from "@/lib/errors";
 
 // Create a new ratelimiter, that allows 3 requests per day
 const ratelimit = new Ratelimit({
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const bodyData = await request.json();
+  const bodyData: { [x: string]: any } = await request.json();
 
   // Validate input data
   const schemaRes = contactSchema.safeParse(bodyData);
@@ -70,7 +71,7 @@ export async function POST(request: NextRequest) {
       });
       await new SESClient({ region: "us-east-2" }).send(command);
     } catch (err) {
-      console.log("[AWS-SES Error] " + err);
+      console.log("[AWS-SES Error] " + getErrMSG(err));
       return NextResponse.json(
         { message: "Failed to send message." },
         { status: 500 }

@@ -14,7 +14,7 @@ export const FRONT_END: SkillData = [
 
 export const BACK_END: SkillData = [
   { name: "Node.js", icon: "devicon-nodejs-plain" },
-  { name: "Express.js", icon: "express" },
+  { name: "Express", icon: "express" },
   { name: "Python", icon: "python" },
   { name: "Flask", icon: "devicon-flask-original" },
   { name: "MongoDB", icon: "devicon-mongodb-plain" },

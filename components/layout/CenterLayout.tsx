@@ -8,7 +8,7 @@ type CenterLayoutProps = {
 export default function CenterLayout({
   variant = "main",
   children,
-  className,
+  className = "",
   overflowX = false,
 }: CenterLayoutProps) {
   const layoutClass = `w-full max-w-7xl relative ${
