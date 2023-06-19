@@ -58,7 +58,7 @@ export default function About() {
         <a
           href={process.env.NEXT_PUBLIC_RESUME}
           target="_blank"
-          className="btn mt-4 bg-primary"
+          className="btn mt-4 bg-primary transition duration-300 hocus:bg-purple-600"
         >
           View My Resume
         </a>

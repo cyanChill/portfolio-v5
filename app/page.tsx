@@ -33,10 +33,16 @@ export default function Home() {
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2">
-          <Link href="/projects" className="btn bg-primary">
+          <Link
+            href="/projects"
+            className="btn bg-primary transition duration-300 hocus:bg-purple-600"
+          >
             View My Work
           </Link>
-          <Link href="/about" className="btn border-2 border-primary">
+          <Link
+            href="/about"
+            className="btn border-2 border-primary transition duration-300 hocus:border-purple-600 hocus:bg-purple-600"
+          >
             Learn More <span className="sr-only">About Me</span>
           </Link>
         </div>
