@@ -60,10 +60,11 @@ export async function POST(request: NextRequest) {
       const message = `From: ${Name} (${Email})\n\n${Message}`
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;");
+      const recipient = process.env.NEXT_PUBLIC_EMAIL ?? "";
 
       const command = new SendEmailCommand({
-        Source: "anthonyliang9@gmail.com",
-        Destination: { ToAddresses: ["anthonyliang9@gmail.com"] },
+        Source: recipient,
+        Destination: { ToAddresses: [recipient] },
         Message: {
           Subject: { Data: `Portfolio Contact Message : ${Email}` },
           Body: { Text: { Data: message } },

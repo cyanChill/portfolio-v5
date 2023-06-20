@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function About() {
   return (
-    <CenterLayout className="page-container grid gap-4 lg:my-auto lg:grid-cols-2 lg:gap-10">
+    <CenterLayout className="page-container grid gap-4 overflow-y-hidden lg:my-auto lg:grid-cols-2 lg:gap-10">
       <section className="animate-pop-in opacity-0 md:my-auto">
         <h1 className="title">
           <span className="gradient-primary-text">Who am I?</span>
@@ -109,7 +109,7 @@ const SkillGroup = ({
   return (
     <div style={style} className={`rounded-lg p-4 ${bgColor} ${className}`}>
       <p className="text-2xl font-semibold">{label}</p>
-      <div className="mt-2 grid grid-cols-[repeat(auto-fit,70px)] justify-evenly gap-2">
+      <div className="mt-2 grid grid-cols-[repeat(auto-fit,74px)] justify-evenly gap-[6px]">
         {icons.map((icon) => {
           let iconEl: JSX.Element;
           if (icon.icon.startsWith("devicon")) {
@@ -129,7 +129,7 @@ const SkillGroup = ({
           return (
             <div
               key={icon.name}
-              className="flex w-[70px] flex-col items-center text-xs transition duration-200 hover:scale-105"
+              className="flex w-[74px] flex-col items-center text-xs transition duration-200 hover:scale-105"
             >
               {iconEl}
               <p className="mt-auto">{icon.name}</p>

@@ -15,7 +15,15 @@ export const PROJECTS: ProjectData = [
     },
     title: "Portfolio",
     brief: "5th time's the charm, right?",
-    technologies: ["Next.js", "TypeScript", "TailwindCSS", "AWS", "Upstash"],
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "MDX",
+      "Tailwind CSS",
+      "React Hook Form",
+      "Amazon SES",
+      "Upstash",
+    ],
   },
   {
     featured: true,
@@ -29,11 +37,11 @@ export const PROJECTS: ProjectData = [
     technologies: [
       "Next.js",
       "TypeScript",
-      "TailwindCSS",
+      "Tailwind CSS",
       "Flask",
       "Python",
       "PostgreSQL",
-      "CI/CD"
+      "CI/CD",
     ],
   },
   {
@@ -44,7 +52,14 @@ export const PROJECTS: ProjectData = [
     },
     title: "OdinWorks",
     brief: "View posts from a private network of friends.",
-    technologies: ["React", "Node.js", "Express", "Passport", "MongoDB", "Firebase"],
+    technologies: [
+      "React",
+      "Node.js",
+      "Express",
+      "Passport",
+      "MongoDB",
+      "Firebase",
+    ],
   },
   {
     featured: true,

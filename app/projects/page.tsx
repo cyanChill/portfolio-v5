@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function Projects() {
   return (
-    <CenterLayout className="page-container animate-pop-in opacity-0">
+    <CenterLayout className="page-container animate-pop-in overflow-y-hidden opacity-0">
       <h1 className="title">
         <span className="gradient-primary-text">Projects</span>
       </h1>

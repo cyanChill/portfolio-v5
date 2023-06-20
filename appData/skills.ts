@@ -8,7 +8,7 @@ export const FRONT_END: SkillData = [
   { name: "React", icon: "devicon-react-original" },
   { name: "Next.js", icon: "devicon-nextjs-original" },
   { name: "Bootstrap", icon: "bootstrap" },
-  { name: "TailwindCSS", icon: "devicon-tailwindcss-plain" },
+  { name: "Tailwind CSS", icon: "devicon-tailwindcss-plain" },
   { name: "Firebase", icon: "firebase" },
 ];
 
