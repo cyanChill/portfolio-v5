@@ -13,14 +13,15 @@ type ComponentProps = {
 
 // Custom components we'll override with
 const components = {
-  // We default the page gutters to be 1.5rem
-  h2: ({ className, ...props }: ComponentProps) => (
-    <h2 className="border-b pb-1" {...props} />
+  h2: ({ className = "", ...props }: ComponentProps) => (
+    <h2 className={`border-b pb-1 ${className}`} {...props} />
   ),
-  // We default the page gutters to be 1.5rem
-  pre: ({ className, ...props }: ComponentProps) => (
+  h5: ({ className = "", ...props }: ComponentProps) => (
+    <h5 className={`font-semibold text-gray-200 ${className}`} {...props} />
+  ),
+  pre: ({ className = "", ...props }: ComponentProps) => (
     <pre
-      className="scrollbar overflow-x-auto rounded-lg border border-slate-800 px-0"
+      className={`scrollbar overflow-x-auto rounded-lg border border-slate-800 px-0 ${className}`}
       {...props}
     />
   ),
