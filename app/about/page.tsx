@@ -1,28 +1,15 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import type { CSSProperties } from "react";
 
+import genMetaData from "@/lib/server-metadata";
 import * as skillData from "@/appData/skills";
 import CenterLayout from "@/components/layout/CenterLayout";
 
-export const metadata: Metadata = {
+export const metadata = genMetaData({
   title: "About",
   description: "Learn more about me.",
-  openGraph: {
-    title: "About | Anthony Liang",
-    description: "Learn more about me.",
-    url: "https://cyanchill.com/about",
-    images: "/opengraph-image.png",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "About | Anthony Liang",
-    description: "Learn more about me.",
-    images: "/twitter-image.png",
-  },
-};
+  url: "https://cyanchill.com/about",
+});
 
 export default function About() {
   return (

@@ -1,27 +1,15 @@
 import type { Metadata } from "next";
 
+import genMetaData from "@/lib/server-metadata";
 import CenterLayout from "@/components/layout/CenterLayout";
 /* Work around to set titles with App Router if we use client components */
 import ProjectsList from "@/components/projects-list";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = genMetaData({
   title: "My Projects",
   description: "View some of my projects.",
-  openGraph: {
-    title: "My Projects | Anthony Liang",
-    description: "View some of my projects.",
-    url: "https://cyanchill.com/projects",
-    images: "/opengraph-image.png",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "My Projects | Anthony Liang",
-    description: "View some of my projects.",
-    images: "/twitter-image.png",
-  },
-};
+  url: "https://cyanchill.com/projects",
+});
 
 export default function Projects() {
   return (

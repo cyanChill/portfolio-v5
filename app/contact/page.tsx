@@ -1,27 +1,14 @@
-import type { Metadata } from "next";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
+import genMetaData from "@/lib/server-metadata";
 import CenterLayout from "@/components/layout/CenterLayout";
 import ContactForm from "@/components/contact-form";
 
-export const metadata: Metadata = {
+export const metadata = genMetaData({
   title: "Contact",
   description: "Let's work together.",
-  openGraph: {
-    title: "Contact | Anthony Liang",
-    description: "Let's work together.",
-    url: "https://cyanchill.com/contact",
-    images: "/opengraph-image.png",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Contact | Anthony Liang",
-    description: "Let's work together.",
-    images: "/twitter-image.png",
-  },
-};
+  url: "https://cyanchill.com/contact",
+});
 
 export default function Contact() {
   return (
