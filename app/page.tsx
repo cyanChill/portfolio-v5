@@ -37,13 +37,13 @@ export default function Home() {
         <div className="mt-6 flex flex-wrap gap-2">
           <Link
             href="/projects"
-            className="btn bg-primary transition duration-300 hocus:bg-accent"
+            className="btn bg-primary transition duration-500 hocus:bg-accent"
           >
             View My Work
           </Link>
           <Link
             href="/about"
-            className="btn border-2 border-primary transition duration-300 hocus:border-accent hocus:bg-accent"
+            className="btn border-2 border-primary transition duration-500 hocus:border-accent hocus:bg-accent"
           >
             Learn More <span className="sr-only">About Me</span>
           </Link>
