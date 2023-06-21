@@ -90,7 +90,7 @@ const FilterButton = ({ active, onClick, children }: FilterButtonProps) => {
       className={`mx-2 rounded-md p-2.5 py-1.5 transition duration-300 ${
         active
           ? "scale-125 bg-slate-800 font-bold"
-          : "font-medium hocus:scale-105 hocus:bg-slate-900 hocus:font-semibold"
+          : "font-medium hocus:underline"
       }`}
     >
       {children}

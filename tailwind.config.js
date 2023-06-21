@@ -32,6 +32,7 @@ module.exports = {
       colors: {
         primary: "#ff00e6",
         "primary-bkg": "#020617",
+        "accent": "#0ea7ff",
 
         /* Gradient color classes */
         "pg-start": "rgb(255 0 230 / 1)",
@@ -53,6 +54,10 @@ module.exports = {
         scaleX: {
           "0%": { transform: "scaleX(0)" },
           "100%": { transform: "scaleX(1)" },
+        },
+        fadeIn: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
         },
       },
     },

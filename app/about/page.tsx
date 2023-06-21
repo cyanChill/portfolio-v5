@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import genMetaData from "@/lib/server-metadata";
 import * as skillData from "@/appData/skills";
 import CenterLayout from "@/components/layout/CenterLayout";
+import { GradText } from "@/components/Gradient";
 
 export const metadata = genMetaData({
   title: "About",
@@ -16,7 +17,7 @@ export default function About() {
     <CenterLayout className="page-container grid gap-4 overflow-y-hidden lg:my-auto lg:grid-cols-2 lg:gap-10">
       <section className="animate-pop-in opacity-0 md:my-auto">
         <h1 className="title">
-          <span className="gradient-primary-text">Who am I?</span>
+          <GradText content="Who am I?" durationMS={500} delayMS={300} />
         </h1>
         <p className="mt-2 text-sm sm:mt-4 sm:text-base">
           A full-stack developer from Brooklyn, New York who recently graduated
@@ -60,7 +61,7 @@ export default function About() {
         <a
           href={process.env.NEXT_PUBLIC_RESUME}
           target="_blank"
-          className="btn mt-4 bg-primary transition duration-300 hocus:bg-purple-600"
+          className="btn mt-4 bg-primary transition duration-300 hocus:bg-accent"
         >
           View My Resume
         </a>

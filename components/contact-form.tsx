@@ -55,7 +55,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={formState.isSubmitting}
-        className="btn btn-lg ml-auto bg-primary transition duration-300 hocus:bg-purple-600"
+        className="btn btn-lg ml-auto bg-primary transition duration-300 hocus:bg-accent"
       >
         Send Message
       </button>

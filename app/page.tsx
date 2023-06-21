@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 import CenterLayout from "@/components/layout/CenterLayout";
+import { GradText } from "@/components/Gradient";
 
 export default function Home() {
   return (
@@ -20,11 +21,12 @@ export default function Home() {
         style={{ "--pop-in-delay": "2s" } as CSSProperties}
         className="animate-pop-in text-2xl font-bold opacity-0 sm:text-4xl"
       >
-        <span className="gradient-primary-text">Full-Stack</span> Developer
+        <GradText content="Full-Stack" durationMS={500} delayMS={2150} />{" "}
+        Developer
       </p>
 
       <div
-        style={{ "--pop-in-delay": "2.4s" } as CSSProperties}
+        style={{ "--pop-in-delay": "2.65s" } as CSSProperties}
         className="animate-pop-in opacity-0"
       >
         <p className="mt-4 max-w-[40ch] text-xs leading-5 opacity-80 sm:text-base">
@@ -35,13 +37,13 @@ export default function Home() {
         <div className="mt-6 flex flex-wrap gap-2">
           <Link
             href="/projects"
-            className="btn bg-primary transition duration-300 hocus:bg-purple-600"
+            className="btn bg-primary transition duration-300 hocus:bg-accent"
           >
             View My Work
           </Link>
           <Link
             href="/about"
-            className="btn border-2 border-primary transition duration-300 hocus:border-purple-600 hocus:bg-purple-600"
+            className="btn border-2 border-primary transition duration-300 hocus:border-accent hocus:bg-accent"
           >
             Learn More <span className="sr-only">About Me</span>
           </Link>
