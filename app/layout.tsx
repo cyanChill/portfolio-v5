@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Anthony Liang" }],
   description: "Anthony Liang's portfolio",
   keywords: ["Anthony Liang", "cyanchill", "cyanchill.com"],
+  metadataBase: new URL("https://www.cyanchill.com"),
   openGraph: {
     title: "Anthony Liang | Full-Stack Developer",
     description: "Anthony Liang's portfolio",
