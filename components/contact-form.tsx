@@ -75,6 +75,7 @@ const Input = ({ label, register, error, type = "text" }: InputProps) => {
   return (
     <div className="relative my-3 text-gray-400">
       <input
+        id={label}
         type={type}
         placeholder=" "
         {...register(label)}
@@ -99,6 +100,7 @@ const TextArea = ({ label, register, error, rows = 3 }: TextAreaProps) => {
   return (
     <div className="relative my-3 text-gray-400">
       <textarea
+        id={label}
         placeholder=" "
         rows={rows}
         {...register(label)}

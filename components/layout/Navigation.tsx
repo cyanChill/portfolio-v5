@@ -112,12 +112,14 @@ export default function NavBar() {
 
           <div className="mt-8 flex gap-3 pb-32 text-2xl sm:hidden">
             <a href="https://github.com/cyanChill" target="_blank">
+              <span className="sr-only">Link to my GitHub</span>
               <FaGithub />
             </a>
             <a
               href="https://www.linkedin.com/in/anthonyliang9/"
               target="_blank"
             >
+              <span className="sr-only">Link to my LinkedIn</span>
               <FaLinkedin />
             </a>
           </div>

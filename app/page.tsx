@@ -51,9 +51,11 @@ export default function Home() {
 
         <div className="mt-4 flex gap-3 text-2xl">
           <a href="https://github.com/cyanChill" target="_blank">
+            <span className="sr-only">Link to my GitHub</span>
             <FaGithub />
           </a>
           <a href="https://www.linkedin.com/in/anthonyliang9/" target="_blank">
+            <span className="sr-only">Link to my LinkedIn</span>
             <FaLinkedin />
           </a>
         </div>

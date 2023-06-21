@@ -36,6 +36,7 @@ export default function Contact() {
           target="_blank"
           className="w-fit"
         >
+          <span className="sr-only">Link to my GitHub</span>
           <FaGithub className="inline" />{" "}
           <span className="text-base opacity-80">/cyanChill</span>
         </a>
@@ -44,6 +45,7 @@ export default function Contact() {
           target="_blank"
           className="w-fit"
         >
+          <span className="sr-only">Link to my LinkedIn</span>
           <FaLinkedin className="inline" />{" "}
           <span className="text-base opacity-80">/anthonyliang9</span>
         </a>
