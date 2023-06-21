@@ -1,11 +1,15 @@
+import type { Metadata } from "next";
+
+import genMetaData from "@/lib/server-metadata";
 import CenterLayout from "@/components/layout/CenterLayout";
 /* Work around to set titles with App Router if we use client components */
 import ProjectsList from "@/components/projects-list";
 
-export const metadata = {
-  title: "My Projects | Anthony Liang",
+export const metadata: Metadata = genMetaData({
+  title: "My Projects",
   description: "View some of my projects.",
-};
+  url: "https://cyanchill.com/projects",
+});
 
 export default function Projects() {
   return (

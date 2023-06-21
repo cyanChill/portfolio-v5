@@ -27,13 +27,42 @@ export function generateMetadata({ params }: PageProps): Metadata {
 
   if (!project || !projectData) {
     return {
-      title: `Project Overview Not Found`,
+      title: { absolute: "Project Overview Not Found" },
       description: "Overview for project not found.",
+      openGraph: {
+        title: "Project Overview Not Found",
+        description: "Overview for project not found.",
+        url: `https://cyanchill.com/projects/overview/${params.projId}`,
+        images: "/opengraph-image.png",
+        locale: "en_US",
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: "Project Overview Not Found",
+        description: "Overview for project not found.",
+        images: "/twitter-image.png",
+      },
     };
   } else {
     return {
-      title: `${project.projectName} | Project Overview`,
+      title: { absolute: `${project.projectName} | Project Overview` },
       description: projectData.brief,
+      openGraph: {
+        title: `${project.projectName} | Project Overview`,
+        description: projectData.brief,
+        url: `https://cyanchill.com/projects/overview/${params.projId}`,
+        images: projectData.thumbnail.url,
+        locale: "en_US",
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${project.projectName} | Project Overview`,
+        description:  projectData.brief,
+        images: projectData.thumbnail.url,
+      },
+      themeColor: project.heroHex,
     };
   }
 }

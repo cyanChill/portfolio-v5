@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { Analytics } from "@vercel/analytics/react";
@@ -8,9 +9,29 @@ import DynamicBkg from "@/components/layout/DynamicBkg";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "Anthony Liang | Full-Stack Developer",
+export const metadata: Metadata = {
+  title: {
+    template: "%s | Anthony Liang",
+    default: "Anthony Liang | Full-Stack Developer",
+  },
+  authors: [{ name: "Anthony Liang" }],
   description: "Anthony Liang's portfolio",
+  keywords: ["Anthony Liang", "cyanchill", "cyanchill.com"],
+  openGraph: {
+    title: "Anthony Liang | Full-Stack Developer",
+    description: "Anthony Liang's portfolio",
+    url: "https://cyanchill.com",
+    images: "/opengraph-image.png",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Anthony Liang | Full-Stack Developer",
+    description: "Anthony Liang's portfolio",
+    images: "/twitter-image.png",
+  },
+  themeColor: "#020617",
 };
 
 export default function RootLayout({

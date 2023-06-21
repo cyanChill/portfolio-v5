@@ -1,13 +1,15 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 
+import genMetaData from "@/lib/server-metadata";
 import * as skillData from "@/appData/skills";
 import CenterLayout from "@/components/layout/CenterLayout";
 
-export const metadata = {
-  title: "About | Anthony Liang",
+export const metadata = genMetaData({
+  title: "About",
   description: "Learn more about me.",
-};
+  url: "https://cyanchill.com/about",
+});
 
 export default function About() {
   return (
