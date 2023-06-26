@@ -2,7 +2,6 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 import genMetaData from "@/lib/server-metadata";
 import CenterLayout from "@/components/layout/CenterLayout";
-import { GradText } from "@/components/Gradient";
 import ContactForm from "@/components/contact-form";
 
 export const metadata = genMetaData({
@@ -16,7 +15,7 @@ export default function Contact() {
     <CenterLayout className="page-container grid animate-pop-in gap-4 opacity-0 md:my-auto md:grid-cols-2 md:gap-10">
       <section>
         <h1 className="title">
-          <GradText content="Contact" durationMS={500} delayMS={300} />
+          <span className="gradient-primary-text">Contact</span>
         </h1>
         <p className="mt-2 text-sm sm:mt-4 sm:text-base">
           Fill out the form or shoot me an email directly at{" "}
