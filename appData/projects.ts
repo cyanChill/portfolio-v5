@@ -74,17 +74,6 @@ export const PROJECTS: ProjectData = [
   {
     featured: false,
     thumbnail: {
-      url: "/projects/gradschoolzero/thumbnail.webp",
-      colorHex: "#aaf5ac",
-    },
-    title: "GradSchoolZero",
-    brief:
-      "A mock graduation management application which allows for the creation of classes, class registration by users, and grade management.",
-    technologies: ["React", "Bootstrap", "JSON Server"],
-  },
-  {
-    featured: false,
-    thumbnail: {
       url: "/projects/pc-parts-list/thumbnail.webp",
       colorHex: "#ff6666",
     },
@@ -104,6 +93,20 @@ export const PROJECTS: ProjectData = [
       "A visual clone of the Canal Street Market site which demonstrates intriguing animations and abnormal layout designs.",
     technologies: ["React", "TypeScript"],
   },
+  {
+    featured: false,
+    thumbnail: {
+      url: "/projects/gradschoolzero/thumbnail.webp",
+      colorHex: "#aaf5ac",
+    },
+    title: "GradSchoolZero",
+    brief:
+      "A mock graduation management application which allows for the creation of classes, class registration by users, and grade management.",
+    technologies: ["React", "Bootstrap", "JSON Server"],
+  },
+];
+
+const ARCHIVE: ProjectData = [
   {
     featured: false,
     thumbnail: {

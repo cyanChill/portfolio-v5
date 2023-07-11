@@ -25,6 +25,7 @@ export const Project = defineDocumentType(() => ({
 
 export default makeSource({
   contentDirPath: "./content",
+  contentDirExclude: ["archive"],
   documentTypes: [Project],
   mdx: {
     remarkPlugins: [
