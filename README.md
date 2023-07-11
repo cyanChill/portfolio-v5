@@ -1,6 +1,6 @@
 <!-- PROJECT LOGO -->
 <div align="center">
-  <a href="https://github.com/cyanChill/portfolio-v5">
+  <a href="https://github.com/cyanChill/cyanchill.com">
     <img src="public/logo_alt.png" alt="logo" width="100" height="100" />
   </a>
   <h1>Anthony Liang</h3>
@@ -18,7 +18,7 @@
 To get started, clone the repository, install the dependencies, and start up the development server:
 
 ```bash
-git clone https://github.com/cyanChill/portfolio-v5.git
+git clone https://github.com/cyanChill/cyanchill.com.git
 npm install
 npm run dev
 ```
@@ -49,7 +49,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 By default, everything visually should be looking fine. However, some additional configuration is needed to get the site fully functional. Things that don't work include the resume link, contact email, and the contact form.
 
-To get this features working, you need to create a `.env` file which can be copied from [`.env.example`](https://github.com/cyanChill/portfolio-v5/blob/main/.env.example). Instructions on what to populate the environment variables with are also mentioned in `.env.example`.
+To get this features working, you need to create a `.env` file which can be copied from [`.env.example`](https://github.com/cyanChill/cyanchill.com/blob/main/.env.example). Instructions on what to populate the environment variables with are also mentioned in `.env.example`.
 
 ## Built With
 
