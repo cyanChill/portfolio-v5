@@ -3,6 +3,29 @@ import Image from "next/image";
 import CenterLayout from "@/components/layout/CenterLayout";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Anthony Liang | Full-Stack Developer",
+  authors: [{ name: "Anthony Liang" }],
+  description: "Anthony Liang's portfolio",
+  keywords: ["Anthony Liang", "cyanchill", "cyanchill.com"],
+  metadataBase: new URL("https://www.cyanchill.com"),
+  openGraph: {
+    title: "Anthony Liang | Full-Stack Developer",
+    description: "Anthony Liang's portfolio",
+    url: "https://cyanchill.com",
+    images: "/opengraph-image.png",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Anthony Liang | Full-Stack Developer",
+    description: "Anthony Liang's portfolio",
+    images: "/twitter-image.png",
+  },
+  themeColor: "#020617",
+};
+
 export default function NotFound() {
   return (
     <CenterLayout className="my-20 grid gap-4 px-4 sm:py-8 md:my-auto md:grid-cols-2 md:gap-10 md:px-20">
