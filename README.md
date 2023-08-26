@@ -7,7 +7,6 @@
   <p>
     Full-Stack Developer
     <br />
-    <a href="https://cyanchill.com"><strong>View it Live »</strong></a>
   </p>
 </div>
 
